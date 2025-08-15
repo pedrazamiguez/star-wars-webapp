@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(':star-wars-webapp-domain')
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
