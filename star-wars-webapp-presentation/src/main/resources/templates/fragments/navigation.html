@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<header>
+    <nav th:fragment="navigation" class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-xl">
+
+            <a class="navbar-brand" href="#" th:text="#{app.name}">Navbar</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/people}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round"
+                                 class="icon icon-tabler icons-tabler-outline icon-tabler-users">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/>
+                                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>
+                            </svg>
+                            <span th:text="#{navigation.people}">People</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" th:href="@{/starships}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                 stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-ufo">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M16.95 9.01c3.02 .739 5.05 2.123 5.05 3.714c0 2.367 -4.48 4.276 -10 4.276s-10 -1.909 -10 -4.276c0 -1.59 2.04 -2.985 5.07 -3.724"/>
+                                <path d="M7 9c0 1.105 2.239 2 5 2s5 -.895 5 -2v-.035c0 -2.742 -2.239 -4.965 -5 -4.965s-5 2.223 -5 4.965v.035"/>
+                                <path d="M15 17l2 3"/>
+                                <path d="M8.5 17l-1.5 3"/>
+                                <path d="M12 14h.01"/>
+                                <path d="M7 13h.01"/>
+                                <path d="M17 13h.01"/>
+                            </svg>
+                            <span th:text="#{navigation.starships}">Starships</span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <!--                <form class="d-flex col-4" role="search" th:action="@{/search}" th:object="${searchForm}" method="post">-->
+                <!--                    <input class="form-control me-2" type="search" th:field="*{searchTerm}" placeholder="Search"-->
+                <!--                           th:placeholder="#{navigation.search.placeholder}" aria-label="Search">-->
+                <!--                </form>-->
+
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language"
+                                 width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4 5h7"></path>
+                                <path d="M9 3v2c0 4.418 -2.239 8 -5 8"></path>
+                                <path d="M5 9c0 2.144 2.952 3.908 6.7 4"></path>
+                                <path d="M12 20l4 -9l4 9"></path>
+                                <path d="M19.1 18h-6.2"></path>
+                            </svg>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" href="#" th:href="@{?language=en}">
+                                    <svg th:if="__${#locale}__ == 'en'" xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-square-rounded-check" width="24"
+                                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M9 12l2 2l4 -4"></path>
+                                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                    </svg>
+                                    <svg th:unless="__${#locale}__ == 'en'" xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-square-rounded" width="24" height="24"
+                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                         stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                    </svg>
+                                    <span th:text="#{navigation.languages.english}">English</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" th:href="@{?language=es}">
+                                    <svg th:if="__${#locale}__ == 'es'" xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-square-rounded-check" width="24"
+                                         height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M9 12l2 2l4 -4"></path>
+                                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                    </svg>
+                                    <svg th:unless="__${#locale}__ == 'es'" xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-square-rounded" width="24" height="24"
+                                         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                         stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z"></path>
+                                    </svg>
+                                    <span th:text="#{navigation.languages.spanish}">Spanish</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>
