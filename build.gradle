@@ -1,0 +1,41 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.4' apply false
+	id 'io.spring.dependency-management' version '1.1.7' apply false
+}
+
+group = 'es.pedrazamiguez.starwarswebapp'
+version = '0.0.1-SNAPSHOT'
+description = 'A web application displaying characters and starships from Star Wars'
+
+subprojects {
+    apply plugin: 'java'
+
+    group = rootProject.group
+    version = rootProject.version
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+    }
+}
+
+configure([
+        project(':star-wars-webapp-application'),
+        project(':star-wars-webapp-infrastructure'),
+        project(':star-wars-webapp-presentation'),
+        project(':star-wars-webapp-boot')
+]) {
+    apply plugin: 'io.spring.dependency-management'
+}

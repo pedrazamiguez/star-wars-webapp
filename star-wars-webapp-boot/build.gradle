@@ -1,0 +1,13 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation project(':star-wars-webapp-domain')
+    implementation project(':star-wars-webapp-application')
+    implementation project(':star-wars-webapp-infrastructure')
+    implementation project(':star-wars-webapp-presentation')
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
