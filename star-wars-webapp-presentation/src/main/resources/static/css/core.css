@@ -1,0 +1,19 @@
+* {
+    font-family: 'Signika Negative', sans-serif;
+}
+
+input:-webkit-autofill::first-line {
+    font-family: 'Signika Negative', sans-serif;
+}
+
+svg {
+    vertical-align: top;
+}
+
+.logo {
+    height: 40px;
+}
+
+td {
+    vertical-align: middle;
+}
