@@ -9,18 +9,18 @@
 
 <main>
     <div class="container-xl mt-4">
-        <h1 th:text="#{people.title}">Characters</h1>
-        <p th:text="#{people.description}">This page lists all characters from the Star Wars universe.</p>
+        <h1 th:text="#{characters.title}">Characters</h1>
+        <p th:text="#{characters.description}">This page lists all characters from the Star Wars universe.</p>
 
         <div class="row mb-3">
             <div class="col-md-6">
                 <form th:action="@{/characters/search}" method="get" class="d-flex flex-wrap align-items-center gap-2">
                     <div class="flex-grow-1">
-                        <label th:text="#{people.search.label}" for="characterSearchInput" class="visually-hidden">Search
+                        <label th:text="#{characters.search.label}" for="characterSearchInput" class="visually-hidden">Search
                             Characters</label>
                         <input type="text" id="characterSearchInput" name="query" class="form-control"
-                               th:placeholder="#{people.search.placeholder}"
-                               aria-label="#{people.search.placeholder}" th:value="${query}">
+                               th:placeholder="#{characters.search.placeholder}"
+                               aria-label="#{characters.search.placeholder}" th:value="${query}">
                     </div>
                     <div class="d-flex gap-2">
                         <button id="characterSearchButton" class="btn btn-primary" type="submit"
@@ -40,16 +40,16 @@
                     <thead>
                     <tr>
                         <th th:text="#{common.table.header.id}">ID</th>
-                        <th th:text="#{people.table.header.name}">Name</th>
-                        <th th:text="#{people.table.header.birth_year}">Birth Year</th>
-                        <th th:text="#{people.table.header.eye_color}">Eye Color</th>
-                        <th th:text="#{people.table.header.gender}">Gender</th>
-                        <th th:text="#{people.table.header.hair_color}">Hair Color</th>
-                        <th th:text="#{people.table.header.height}">Height</th>
-                        <th th:text="#{people.table.header.mass}">Mass</th>
-                        <th th:text="#{people.table.header.skin_color}">Skin Color</th>
-                        <th th:text="#{people.table.header.created}">Created Date</th>
-                        <th th:text="#{people.table.header.edited}">Edited Date</th>
+                        <th th:text="#{characters.table.header.name}">Name</th>
+                        <th th:text="#{characters.table.header.birth_year}">Birth Year</th>
+                        <th th:text="#{characters.table.header.eye_color}">Eye Color</th>
+                        <th th:text="#{characters.table.header.gender}">Gender</th>
+                        <th th:text="#{characters.table.header.hair_color}">Hair Color</th>
+                        <th th:text="#{characters.table.header.height}">Height</th>
+                        <th th:text="#{characters.table.header.mass}">Mass</th>
+                        <th th:text="#{characters.table.header.skin_color}">Skin Color</th>
+                        <th th:text="#{characters.table.header.created}">Created Date</th>
+                        <th th:text="#{characters.table.header.edited}">Edited Date</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -70,7 +70,7 @@
                 </table>
 
                 <div th:if="${#lists.isEmpty(characters)}" class="alert alert-warning">
-                    <p th:text="#{people.search.no_results}">No characters found matching your search criteria.</p>
+                    <p th:text="#{characters.search.no_results}">No characters found matching your search criteria.</p>
                 </div>
             </div>
         </div>
