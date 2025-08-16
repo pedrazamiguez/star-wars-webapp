@@ -1,6 +1,12 @@
-dependencies {
-    implementation project(':star-wars-webapp-domain')
+apply plugin: 'java'
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
+sourceSets {
+    main {
+        java {
+            srcDirs = []
+        }
+        resources {
+            srcDirs = []
+        }
+    }
 }

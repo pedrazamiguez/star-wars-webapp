@@ -19,21 +19,11 @@ subprojects {
             languageVersion = JavaLanguageVersion.of(21)
         }
     }
-
-    dependencies {
-        testImplementation platform('org.junit:junit-bom:5.10.0')
-        testImplementation 'org.junit.jupiter:junit-jupiter'
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    }
-
-    tasks.withType(Test).configureEach {
-        useJUnitPlatform()
-    }
 }
 
 configure([
         project(':star-wars-webapp-application'),
-        project(':star-wars-webapp-infrastructure'),
+        project(':star-wars-webapp-infrastructure:star-wars-webapp-api-client'),
         project(':star-wars-webapp-presentation'),
         project(':star-wars-webapp-boot')
 ]) {
@@ -43,5 +33,15 @@ configure([
         imports {
             mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.4"
         }
+    }
+
+    dependencies {
+        testImplementation platform('org.junit:junit-bom:5.10.0')
+        testImplementation 'org.junit.jupiter:junit-jupiter'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
     }
 }

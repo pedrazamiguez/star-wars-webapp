@@ -4,3 +4,6 @@ server:
 spring:
   thymeleaf:
     cache: false
+
+swapi:
+  base-url: https://swapi.dev/api

@@ -1,2 +1,23 @@
 # star-wars-webapp
 A web application displaying characters and starships from Star Wars
+
+## Certificate for the API URL
+
+At the time of developing, I was getting the following error when trying to access the API URL:
+
+```
+
+```
+
+To solve the issue, I had to add the certificate to my JDK's cacerts file:
+
+1. **Get the certificate**:
+
+```
+openssl s_client -connect swapi.dev:443 -servername swapi.dev < /dev/null | openssl x509 -outform PEM > swapi.pem
+```
+
+2. **Add it to my JDK's cacerts file**:
+```
+sudo keytool -importcert -file swapi.pem -alias swapi -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+```
