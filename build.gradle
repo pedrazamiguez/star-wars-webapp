@@ -1,7 +1,6 @@
 plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.5.4' apply false
-	id 'io.spring.dependency-management' version '1.1.7' apply false
+    id 'java'
+    alias libs.plugins.spring.boot apply false
 }
 
 group = 'es.pedrazamiguez.starwarswebapp'
@@ -19,11 +18,27 @@ subprojects {
             languageVersion = JavaLanguageVersion.of(21)
         }
     }
+}
+
+configure([project(':star-wars-webapp-application'),
+           project(':star-wars-webapp-presentation'),
+           project(':star-wars-webapp-infrastructure:star-wars-webapp-api-client')
+]) {
 
     dependencies {
-        testImplementation platform('org.junit:junit-bom:5.10.0')
-        testImplementation 'org.junit.jupiter:junit-jupiter'
-        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        implementation platform(libs.spring.boot.bom)
+
+        compileOnly libs.lombok
+        annotationProcessor libs.lombok
+        implementation libs.mapstruct
+        annotationProcessor libs.mapstruct.processor
+
+        testImplementation platform(libs.junit.bom)
+        testImplementation libs.junit.jupiter
+        testRuntimeOnly libs.junit.platform.launcher
+
+        testImplementation libs.mockito.core
+        testImplementation libs.mockito.junit
     }
 
     tasks.withType(Test).configureEach {
@@ -31,17 +46,14 @@ subprojects {
     }
 }
 
-configure([
-        project(':star-wars-webapp-application'),
-        project(':star-wars-webapp-infrastructure'),
-        project(':star-wars-webapp-presentation'),
-        project(':star-wars-webapp-boot')
+configure([project(':star-wars-webapp-boot')
 ]) {
-    apply plugin: 'io.spring.dependency-management'
 
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.boot:spring-boot-dependencies:3.5.4"
-        }
+    dependencies {
+        implementation platform(libs.spring.boot.bom)
+    }
+
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
     }
 }

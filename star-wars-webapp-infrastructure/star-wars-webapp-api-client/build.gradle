@@ -1,0 +1,5 @@
+dependencies {
+    implementation project(':star-wars-webapp-domain')
+    implementation libs.spring.boot.starter.web
+    implementation libs.jackson.databind
+}

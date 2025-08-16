@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-<footer th:fragment="footer" class="footer mt-auto py-3 bg-light border-top fixed-bottom">
+<footer class="footer mt-auto py-3 bg-light border-top fixed-bottom" th:fragment="footer">
     <div class="container-xl">
         <span class="mb-3 mb-md-0 text-muted"
               th:text="|${#dates.format(#dates.createNow(), 'yyyy')} © #{app.company}|">Year and company</span>

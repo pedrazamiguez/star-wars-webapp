@@ -1,13 +1,13 @@
 plugins {
-    id 'org.springframework.boot'
+    alias libs.plugins.spring.boot
 }
 
 dependencies {
     implementation project(':star-wars-webapp-domain')
     implementation project(':star-wars-webapp-application')
-    implementation project(':star-wars-webapp-infrastructure')
     implementation project(':star-wars-webapp-presentation')
-    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation project(':star-wars-webapp-infrastructure:star-wars-webapp-api-client')
 
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation libs.spring.boot.starter
+    testImplementation libs.spring.boot.starter.test
 }
