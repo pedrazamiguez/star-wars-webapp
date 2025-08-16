@@ -5,15 +5,13 @@
     <meta content="Welcome page" name="description">
 </head>
 <body>
-<th:block th:replace="~{fragments/navigation :: navigation}"/>
 
 <main>
     <div class="container-xl mt-4 text-center d-flex flex-column align-items-center">
-        <h1 th:text="#{index.welcome}">Welcome</h1>
-        <p th:text="#{index.description}">This is a sample web application using Spring Boot and Thymeleaf.</p>
-        <p th:text="#{index.instructions}">Get started by exploring the Star Wars universe!</p>
-        <img th:src="@{/img/millennium-falcon.webp}" alt="Welcome image" class="img-fluid mb-4"
-             style="max-width: 600px;">
+        <img th:src="@{/img/baby-yoda-crying.jpg}" alt="Error Image" class="img-fluid mb-4" style="max-width: 300px;">
+        <h1 th:text="#{common.error.title}">The Force is Weak</h1>
+        <p th:text="#{common.error.message}">Something went haywire in this galaxy… Please try again, padawan.</p>
+        <a th:href="@{/}" class="btn btn-primary" th:text="#{common.error.home}">Go back to the Millennium Falcon</a>
     </div>
 </main>
 
