@@ -69,18 +69,28 @@
                     </tbody>
                 </table>
 
-                <nav th:unless="${#lists.isEmpty(characters)}">
+                <nav class="d-flex justify-content-end" th:unless="${#lists.isEmpty(characters)}">
                     <form th:action="@{/characters/search}" method="get"
                           class="d-flex flex-wrap align-items-center gap-2">
-                        <p th:text="#{common.pagination.page} + ' ' + ${currentPage}"></p>
+
+                        <p th:text="#{common.pagination.resultsFound(${totalCount})}" class="me-3"></p>
+                        <p class="me-3">|</p>
+                        <p th:text="#{common.pagination.page(${currentPage})}" class="me-3"></p>
+
                         <ul class="pagination">
-                            <li class="page-item" th:classappend="${currentPage <= 1} ? 'disabled'">
+                            <li class="page-item" th:classappend="${!hasPreviousPage} ? 'disabled'">
                                 <a class="page-link" th:text="#{common.pagination.previous}" href="#"
-                                   th:href="@{/characters/search(page=${currentPage - 1}, query=${query})}">Previous</a>
+                                   th:href="@{/characters/search(page=${currentPage - 1}, query=${query})}"
+                                   th:unless="${!hasPreviousPage}">Previous</a>
+                                <span class="page-link" th:if="${!hasPreviousPage}"
+                                      th:text="#{common.pagination.previous}">Previous</span>
                             </li>
-                            <li class="page-item">
+                            <li class="page-item" th:classappend="${!hasNextPage} ? 'disabled'">
                                 <a class="page-link" th:text="#{common.pagination.next}" href="#"
-                                   th:href="@{/characters/search(page=${currentPage + 1}, query=${query})}">Next</a>
+                                   th:href="@{/characters/search(page=${currentPage + 1}, query=${query})}"
+                                   th:unless="${!hasNextPage}">Next</a>
+                                <span class="page-link" th:if="${!hasNextPage}"
+                                      th:text="#{common.pagination.next}">Next</span>
                             </li>
                         </ul>
                     </form>

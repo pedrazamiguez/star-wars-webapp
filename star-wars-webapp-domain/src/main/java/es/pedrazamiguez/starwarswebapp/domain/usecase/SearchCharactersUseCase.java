@@ -1,10 +1,9 @@
 package es.pedrazamiguez.starwarswebapp.domain.usecase;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import java.util.List;
+import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 
 @FunctionalInterface
 public interface SearchCharactersUseCase {
 
-  List<Character> searchCharacters(String searchTerm, int page);
+  PaginatedCharacters searchCharacters(String searchTerm, int page);
 }

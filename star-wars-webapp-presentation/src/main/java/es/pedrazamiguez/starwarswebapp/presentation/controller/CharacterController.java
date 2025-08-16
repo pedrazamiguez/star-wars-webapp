@@ -1,5 +1,6 @@
 package es.pedrazamiguez.starwarswebapp.presentation.controller;
 
+import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.ListCharactersUseCase;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchCharactersUseCase;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,12 @@ public class CharacterController {
 
   private static final String ATTRIBUTE_QUERY = "query";
 
+  private static final String ATTRIBUTE_TOTAL_COUNT = "totalCount";
+
+  private static final String ATTRIBUTE_HAS_NEXT_PAGE = "hasNextPage";
+
+  private static final String ATTRIBUTE_HAS_PREVIOUS_PAGE = "hasPreviousPage";
+
   private final ListCharactersUseCase listCharactersUseCase;
 
   private final SearchCharactersUseCase searchCharactersUseCase;
@@ -30,9 +37,16 @@ public class CharacterController {
   public String listCharacters(
       @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
       final Model model) {
-    model.addAttribute(ATTRIBUTE_CHARACTERS, this.listCharactersUseCase.listCharacters(page));
+
+    final PaginatedCharacters paginatedCharacters = this.listCharactersUseCase.listCharacters(page);
+
+    model.addAttribute(ATTRIBUTE_CHARACTERS, paginatedCharacters.getCharacters());
     model.addAttribute(ATTRIBUTE_CURRENT_PAGE, page);
     model.addAttribute(ATTRIBUTE_QUERY, "");
+    model.addAttribute(ATTRIBUTE_TOTAL_COUNT, paginatedCharacters.getTotalCount());
+    model.addAttribute(ATTRIBUTE_HAS_NEXT_PAGE, paginatedCharacters.isHasNext());
+    model.addAttribute(ATTRIBUTE_HAS_PREVIOUS_PAGE, paginatedCharacters.isHasPrevious());
+
     return TEMPLATE_NAME;
   }
 
@@ -41,10 +55,17 @@ public class CharacterController {
       @RequestParam(value = "query", required = false, defaultValue = "") final String query,
       @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
       final Model model) {
-    model.addAttribute(
-        ATTRIBUTE_CHARACTERS, this.searchCharactersUseCase.searchCharacters(query, page));
+
+    final PaginatedCharacters paginatedCharacters =
+        this.searchCharactersUseCase.searchCharacters(query, page);
+
+    model.addAttribute(ATTRIBUTE_CHARACTERS, paginatedCharacters.getCharacters());
     model.addAttribute(ATTRIBUTE_CURRENT_PAGE, page);
     model.addAttribute(ATTRIBUTE_QUERY, query);
+    model.addAttribute(ATTRIBUTE_TOTAL_COUNT, paginatedCharacters.getTotalCount());
+    model.addAttribute(ATTRIBUTE_HAS_NEXT_PAGE, paginatedCharacters.isHasNext());
+    model.addAttribute(ATTRIBUTE_HAS_PREVIOUS_PAGE, paginatedCharacters.isHasPrevious());
+
     return TEMPLATE_NAME;
   }
 }

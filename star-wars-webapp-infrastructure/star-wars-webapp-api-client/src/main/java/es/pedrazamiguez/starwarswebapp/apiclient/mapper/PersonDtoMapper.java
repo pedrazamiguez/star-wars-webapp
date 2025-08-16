@@ -1,7 +1,9 @@
 package es.pedrazamiguez.starwarswebapp.apiclient.mapper;
 
+import es.pedrazamiguez.starwarswebapp.apiclient.dto.PeopleResponseDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.PersonDto;
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
+import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.mapstruct.Mapper;
@@ -29,4 +31,10 @@ public interface PersonDtoMapper {
       expression =
           "java( LocalDateTime.parse(personDto.getEdited(), DateTimeFormatter.ISO_DATE_TIME) )")
   Character toCharacter(PersonDto personDto);
+
+  @Mapping(target = "totalCount", source = "count")
+  @Mapping(target = "hasNext", expression = "java( null != peopleResponseDto.getNext() )")
+  @Mapping(target = "hasPrevious", expression = "java( null != peopleResponseDto.getPrevious() )")
+  @Mapping(target = "characters", source = "results")
+  PaginatedCharacters toPaginatedCharacters(PeopleResponseDto peopleResponseDto);
 }
