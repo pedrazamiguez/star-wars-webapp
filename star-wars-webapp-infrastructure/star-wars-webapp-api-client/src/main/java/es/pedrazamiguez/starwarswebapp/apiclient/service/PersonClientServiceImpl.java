@@ -34,7 +34,7 @@ public class PersonClientServiceImpl implements PersonClientService {
   public List<Character> getAllCharacters(final int page) {
     log.info("Fetching characters for page {}", page);
     try {
-      final String endpointUrl = String.format("/people/?page=%d", page);
+      final String endpointUrl = String.format("/people?page=%d", page);
       final PeopleResponseDto response =
           this.restClient.get().uri(endpointUrl).retrieve().body(PeopleResponseDto.class);
 
@@ -46,6 +46,31 @@ public class PersonClientServiceImpl implements PersonClientService {
       return Collections.emptyList();
     } catch (final Exception e) {
       log.error("Failed to fetch characters for page {}: {}", page, e.getMessage(), e);
+      return Collections.emptyList();
+    }
+  }
+
+  @Override
+  public List<Character> searchCharacters(final String searchTerm, final int page) {
+    log.info("Searching characters for term '{}' on page {}", searchTerm, page);
+    try {
+      final String endpointUrl = String.format("/people?search=%s&page=%d", searchTerm, page);
+      final PeopleResponseDto response =
+          this.restClient.get().uri(endpointUrl).retrieve().body(PeopleResponseDto.class);
+
+      if (!ObjectUtils.isEmpty(response) && !ObjectUtils.isEmpty(response.getResults())) {
+        return response.getResults().stream().map(this.personDtoMapper::toCharacter).toList();
+      }
+
+      log.warn("No results found for search term '{}' on page {}", searchTerm, page);
+      return Collections.emptyList();
+    } catch (final Exception e) {
+      log.error(
+          "Failed to search characters for term '{}' on page {}: {}",
+          searchTerm,
+          page,
+          e.getMessage(),
+          e);
       return Collections.emptyList();
     }
   }

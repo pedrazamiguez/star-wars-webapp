@@ -11,7 +11,7 @@ public class Character {
   private String gender;
   private String hairColor;
   private Integer height;
-  private Integer mass;
+  private String mass;
   private String skinColor;
   private LocalDateTime created;
   private LocalDateTime edited;

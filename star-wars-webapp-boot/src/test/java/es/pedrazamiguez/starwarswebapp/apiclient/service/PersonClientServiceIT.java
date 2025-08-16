@@ -31,6 +31,24 @@ class PersonClientServiceIT {
   }
 
   @Test
+  void givenSearchTermAndPage_whenSearchCharacters_thenCharactersReturned() {
+    // GIVEN
+    final String searchTerm = "Anakin";
+    final int page = 1;
+
+    // WHEN
+    final List<Character> characters =
+        this.personClientServiceImpl.searchCharacters(searchTerm, page);
+
+    // THEN
+    assertFalse(characters.isEmpty(), "Character list should not be empty");
+    assertEquals(
+        "Anakin Skywalker",
+        characters.getFirst().getName(),
+        "First character found should be Anakin Skywalker");
+  }
+
+  @Test
   void givenCharacterId_whenGetCharacterById_thenCharacterReturned() {
     // GIVEN
     final Long characterId = 1L;

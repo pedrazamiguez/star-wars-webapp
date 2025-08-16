@@ -34,7 +34,7 @@ public class StarshipClientServiceImpl implements StarshipClientService {
   public List<Starship> getAllStarships(final int page) {
     log.info("Fetching starships for page {}", page);
     try {
-      final String endpointUrl = String.format("/starships/?page=%d", page);
+      final String endpointUrl = String.format("/starships?page=%d", page);
       final StarshipsResponseDto response =
           this.restClient.get().uri(endpointUrl).retrieve().body(StarshipsResponseDto.class);
 
@@ -46,6 +46,31 @@ public class StarshipClientServiceImpl implements StarshipClientService {
       return Collections.emptyList();
     } catch (final Exception e) {
       log.error("Failed to fetch starships for page {}: {}", page, e.getMessage(), e);
+      return Collections.emptyList();
+    }
+  }
+
+  @Override
+  public List<Starship> searchStarships(final String searchTerm, final int page) {
+    log.info("Searching starships for term '{}' on page {}", searchTerm, page);
+    try {
+      final String endpointUrl = String.format("/starships?search=%s&page=%d", searchTerm, page);
+      final StarshipsResponseDto response =
+          this.restClient.get().uri(endpointUrl).retrieve().body(StarshipsResponseDto.class);
+
+      if (!ObjectUtils.isEmpty(response) && !ObjectUtils.isEmpty(response.getResults())) {
+        return response.getResults().stream().map(this.starshipDtoMapper::toStarship).toList();
+      }
+
+      log.warn("No results found for search term '{}' on page {}", searchTerm, page);
+      return Collections.emptyList();
+    } catch (final Exception e) {
+      log.error(
+          "Failed to search starships for term '{}' on page {}: {}",
+          searchTerm,
+          page,
+          e.getMessage(),
+          e);
       return Collections.emptyList();
     }
   }

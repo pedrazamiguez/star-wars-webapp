@@ -7,5 +7,7 @@ public interface StarshipClientService {
 
   List<Starship> getAllStarships(int page);
 
+  List<Starship> searchStarships(String searchTerm, int page);
+
   Starship getStarshipById(Long starshipId);
 }
