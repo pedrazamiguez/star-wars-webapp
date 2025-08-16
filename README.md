@@ -7,7 +7,9 @@ A web application displaying characters and starships from Star Wars
 At the time of developing, I was getting the following error when trying to access the API URL:
 
 ```
+2025-08-16T10:54:02.448+02:00 ERROR 83406 --- [ Test worker] e.p.s.a.service.PersonClientServiceImpl : Failed to fetch characters for page 1: I/O error on GET request for "https://swapi.dev/api/people/": PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed
 
+org.springframework.web.client.ResourceAccessException: I/O error on GET request for "https://swapi.dev/api/people/": PKIX path validation failed: java.security.cert.CertPathValidatorException: validity check failed
 ```
 
 To solve the issue, I had to add the certificate to my JDK's cacerts file:
