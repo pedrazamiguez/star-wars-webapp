@@ -13,10 +13,13 @@ import org.mapstruct.MappingConstants;
     imports = {LocalDateTime.class, DateTimeFormatter.class})
 public interface PersonDtoMapper {
 
+  String PEOPLE_ID_REGEX = ".*people/(\\d+)/?.*";
+  String PEOPLE_ID_REPLACEMENT = "$1";
+
   @Mapping(
       target = "characterId",
       expression =
-          "java(Long.parseLong(personDto.getUrl().replaceAll(\".*people/(\\\\d+)/?.*\", \"$1\")))")
+          "java(Long.parseLong(personDto.getUrl().replaceAll(PEOPLE_ID_REGEX, PEOPLE_ID_REPLACEMENT)))")
   @Mapping(
       target = "created",
       expression =

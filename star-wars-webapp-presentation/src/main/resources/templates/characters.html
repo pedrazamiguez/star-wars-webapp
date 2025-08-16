@@ -63,7 +63,7 @@
                         <td th:text="${character.height}"></td>
                         <td th:text="${character.mass}"></td>
                         <td th:text="${character.skinColor}"></td>
-                        <td th:text="${#temporals.format(character.created, 'dd MMM yyyy HH:mm:ss')}"></td>
+                        <td th:text="${#temporals.format(character.created, @dateFormatDisplay)}"></td>
                         <td th:text="${#temporals.format(character.edited, 'dd MMM yyyy HH:mm:ss')}"></td>
                     </tr>
                     </tbody>

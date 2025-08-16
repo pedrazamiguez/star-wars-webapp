@@ -20,7 +20,7 @@ public class SearchCharactersUseCaseImpl implements SearchCharactersUseCase {
   public List<Character> searchCharacters(final String searchTerm, final int page) {
     log.info("Searching characters with term '{}' for page {}", searchTerm, page);
     if (ObjectUtils.isEmpty(searchTerm)) {
-      log.warn("Search term is empty, listing all characters for page {}", page);
+      log.info("Search term is empty, listing all characters for page {}", page);
       return this.characterClientService.getAllCharacters(page);
     } else {
       return this.characterClientService.searchCharacters(searchTerm, page);
