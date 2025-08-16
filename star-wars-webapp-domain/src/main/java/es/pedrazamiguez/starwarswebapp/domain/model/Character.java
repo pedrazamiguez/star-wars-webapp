@@ -10,7 +10,7 @@ public class Character {
   private String eyeColor;
   private String gender;
   private String hairColor;
-  private Integer height;
+  private String height;
   private String mass;
   private String skinColor;
   private LocalDateTime created;

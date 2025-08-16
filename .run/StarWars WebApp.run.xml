@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="StarWars WebApp" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="es.pedrazamiguez.starwarswebapp.StarWarsWebApplication" />
+    <module name="star-wars-webapp.star-wars-webapp-boot.main" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
