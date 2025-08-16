@@ -16,17 +16,17 @@
             <div class="col-md-6">
                 <form th:action="@{/characters/search}" method="get" class="d-flex flex-wrap align-items-center gap-2">
                     <div class="flex-grow-1">
-                        <label th:text="#{people.search.label}" for="searchInput" class="visually-hidden">Search
+                        <label th:text="#{people.search.label}" for="characterSearchInput" class="visually-hidden">Search
                             Characters</label>
-                        <input type="text" id="searchInput" name="query" class="form-control"
+                        <input type="text" id="characterSearchInput" name="query" class="form-control"
                                th:placeholder="#{people.search.placeholder}"
                                aria-label="#{people.search.placeholder}" th:value="${query}">
                     </div>
                     <div class="d-flex gap-2">
-                        <button class="btn btn-primary" type="submit"
-                                th:text="#{common.search}">Search
+                        <button id="characterSearchButton" class="btn btn-primary" type="submit"
+                                th:text="#{common.search}" disabled>Search
                         </button>
-                        <a th:href="@{/characters}" class="btn btn-outline-secondary"
+                        <a id="characterClearButton" th:href="@{/characters}" class="btn btn-outline-secondary disabled"
                            th:text="#{common.search.clear}">Clear Search</a>
                     </div>
                 </form>
