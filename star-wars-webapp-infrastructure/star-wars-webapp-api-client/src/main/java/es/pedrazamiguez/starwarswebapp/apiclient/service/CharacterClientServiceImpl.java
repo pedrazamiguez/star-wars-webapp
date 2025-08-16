@@ -4,7 +4,7 @@ import es.pedrazamiguez.starwarswebapp.apiclient.dto.PeopleResponseDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.PersonDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.mapper.PersonDtoMapper;
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import es.pedrazamiguez.starwarswebapp.domain.service.PersonClientService;
+import es.pedrazamiguez.starwarswebapp.domain.service.CharacterClientService;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +15,13 @@ import org.springframework.web.client.RestClient;
 
 @Slf4j
 @Service
-public class PersonClientServiceImpl implements PersonClientService {
+public class CharacterClientServiceImpl implements CharacterClientService {
 
   private final RestClient restClient;
 
   private final PersonDtoMapper personDtoMapper;
 
-  public PersonClientServiceImpl(
+  public CharacterClientServiceImpl(
       @Value("${swapi.base-url}") final String baseUrl,
       final RestClient.Builder restClientBuilder,
       final PersonDtoMapper personDtoMapper) {

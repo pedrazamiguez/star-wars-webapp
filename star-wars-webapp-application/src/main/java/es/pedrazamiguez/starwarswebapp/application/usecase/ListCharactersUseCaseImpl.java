@@ -1,7 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import es.pedrazamiguez.starwarswebapp.domain.service.PersonClientService;
+import es.pedrazamiguez.starwarswebapp.domain.service.CharacterClientService;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.ListCharactersUseCase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ListCharactersUseCaseImpl implements ListCharactersUseCase {
 
-  private final PersonClientService personClientService;
+  private final CharacterClientService characterClientService;
 
   @Override
   public List<Character> listCharacters(final int page) {
     log.info("Listing characters for page {}", page);
-    return this.personClientService.getAllCharacters(page);
+    return this.characterClientService.getAllCharacters(page);
   }
 }

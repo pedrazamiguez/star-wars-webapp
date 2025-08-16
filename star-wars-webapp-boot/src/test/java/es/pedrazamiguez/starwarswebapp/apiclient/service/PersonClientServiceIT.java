@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PersonClientServiceIT {
+class CharacterClientServiceIT {
 
-  @Autowired private PersonClientServiceImpl personClientServiceImpl;
+  @Autowired private CharacterClientServiceImpl characterClientServiceImpl;
 
   @Test
   void givenPage_whenGetAllCharacters_thenCharactersReturned() {
@@ -20,7 +20,7 @@ class PersonClientServiceIT {
     final int page = 1;
 
     // WHEN
-    final List<Character> characters = this.personClientServiceImpl.getAllCharacters(page);
+    final List<Character> characters = this.characterClientServiceImpl.getAllCharacters(page);
 
     // THEN
     assertFalse(characters.isEmpty(), "Character list should not be empty");
@@ -38,7 +38,7 @@ class PersonClientServiceIT {
 
     // WHEN
     final List<Character> characters =
-        this.personClientServiceImpl.searchCharacters(searchTerm, page);
+        this.characterClientServiceImpl.searchCharacters(searchTerm, page);
 
     // THEN
     assertFalse(characters.isEmpty(), "Character list should not be empty");
@@ -54,7 +54,7 @@ class PersonClientServiceIT {
     final Long characterId = 1L;
 
     // WHEN
-    final Character character = this.personClientServiceImpl.getCharacterById(characterId);
+    final Character character = this.characterClientServiceImpl.getCharacterById(characterId);
 
     // THEN
     assertEquals("Luke Skywalker", character.getName(), "Character name should be Luke Skywalker");
