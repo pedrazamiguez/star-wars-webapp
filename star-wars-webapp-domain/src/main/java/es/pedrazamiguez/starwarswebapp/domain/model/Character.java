@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Character {
+  private Long characterId;
   private String name;
   private String birthYear;
   private String eyeColor;

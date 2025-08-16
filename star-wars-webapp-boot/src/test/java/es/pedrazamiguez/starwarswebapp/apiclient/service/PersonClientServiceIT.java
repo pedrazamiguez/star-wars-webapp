@@ -2,17 +2,19 @@ package es.pedrazamiguez.starwarswebapp.apiclient.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
+import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PersonClientServiceIT {
+class CharacterClientServiceIT {
 
-  @Autowired private PersonClientServiceImpl personClientServiceImpl;
+  @Autowired private CharacterClientServiceImpl characterClientServiceImpl;
 
   @Test
   void givenPage_whenGetAllCharacters_thenCharactersReturned() {
@@ -20,13 +22,16 @@ class PersonClientServiceIT {
     final int page = 1;
 
     // WHEN
-    final List<Character> characters = this.personClientServiceImpl.getAllCharacters(page);
+    final PaginatedCharacters paginatedCharacters =
+        this.characterClientServiceImpl.getAllCharacters(page);
 
     // THEN
-    assertFalse(characters.isEmpty(), "Character list should not be empty");
+    assertTrue(paginatedCharacters.getTotalCount() > 0, "Total count should be greater than 0");
+    assertFalse(
+        paginatedCharacters.getCharacters().isEmpty(), "Character list should not be empty");
     assertEquals(
         "Luke Skywalker",
-        characters.getFirst().getName(),
+        paginatedCharacters.getCharacters().getFirst().getName(),
         "First character should be Luke Skywalker");
   }
 
@@ -37,15 +42,21 @@ class PersonClientServiceIT {
     final int page = 1;
 
     // WHEN
-    final List<Character> characters =
-        this.personClientServiceImpl.searchCharacters(searchTerm, page);
+    final PaginatedCharacters paginatedCharacters =
+        this.characterClientServiceImpl.searchCharacters(searchTerm, page);
 
     // THEN
-    assertFalse(characters.isEmpty(), "Character list should not be empty");
+    assertTrue(paginatedCharacters.getTotalCount() > 0, "Total count should be greater than 0");
+    assertFalse(
+        paginatedCharacters.getCharacters().isEmpty(), "Character list should not be empty");
+    final List<Character> characters = paginatedCharacters.getCharacters();
+    assertTrue(
+        characters.stream().anyMatch(c -> c.getName().contains(searchTerm)),
+        "At least one character should match the search term");
     assertEquals(
         "Anakin Skywalker",
         characters.getFirst().getName(),
-        "First character found should be Anakin Skywalker");
+        "First character should be Anakin Skywalker");
   }
 
   @Test
@@ -54,7 +65,7 @@ class PersonClientServiceIT {
     final Long characterId = 1L;
 
     // WHEN
-    final Character character = this.personClientServiceImpl.getCharacterById(characterId);
+    final Character character = this.characterClientServiceImpl.getCharacterById(characterId);
 
     // THEN
     assertEquals("Luke Skywalker", character.getName(), "Character name should be Luke Skywalker");

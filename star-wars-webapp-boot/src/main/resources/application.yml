@@ -7,3 +7,7 @@ spring:
 
 swapi:
   base-url: https://swapi.dev/api
+
+date:
+  format:
+    display: "dd MMM yyyy HH:mm:ss"

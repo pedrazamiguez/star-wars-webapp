@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{fragments/headDependencies :: headDependencies}"/>
+    <meta content="Characters page" name="description">
+</head>
+<body>
+<th:block th:replace="~{fragments/navigation :: navigation}"/>
+
+<main>
+    <div class="container-xl mt-4">
+        <h1 th:text="#{characters.title}">Characters</h1>
+        <p th:text="#{characters.description}">This page lists all characters from the Star Wars universe.</p>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form th:action="@{/characters/search}" method="get" class="d-flex flex-wrap align-items-center gap-2">
+                    <div class="flex-grow-1">
+                        <label th:text="#{characters.search.label}" for="characterSearchInput" class="visually-hidden">Search
+                            Characters</label>
+                        <input type="text" id="characterSearchInput" name="query" class="form-control"
+                               th:placeholder="#{characters.search.placeholder}"
+                               aria-label="#{characters.search.placeholder}" th:value="${query}">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button id="characterSearchButton" class="btn btn-primary" type="submit"
+                                th:text="#{common.search}" disabled>Search
+                        </button>
+                        <a id="characterClearButton" th:href="@{/characters}" class="btn btn-outline-secondary disabled"
+                           th:text="#{common.search.clear}">Clear Search</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class="table table-striped" th:unless="${#lists.isEmpty(characters)}">
+                    <thead>
+                    <tr>
+                        <th th:text="#{common.table.header.id}">ID</th>
+                        <th th:text="#{characters.table.header.name}">Name</th>
+                        <th th:text="#{characters.table.header.birth_year}">Birth Year</th>
+                        <th th:text="#{characters.table.header.eye_color}">Eye Color</th>
+                        <th th:text="#{characters.table.header.gender}">Gender</th>
+                        <th th:text="#{characters.table.header.hair_color}">Hair Color</th>
+                        <th th:text="#{characters.table.header.height}">Height</th>
+                        <th th:text="#{characters.table.header.mass}">Mass</th>
+                        <th th:text="#{characters.table.header.skin_color}">Skin Color</th>
+                        <th th:text="#{characters.table.header.created}">Created Date</th>
+                        <th th:text="#{characters.table.header.edited}">Edited Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="character : ${characters}">
+                        <td th:text="${character.characterId}"></td>
+                        <td th:text="${character.name}"></td>
+                        <td th:text="${character.birthYear}"></td>
+                        <td th:text="${character.eyeColor}"></td>
+                        <td th:text="${character.gender}"></td>
+                        <td th:text="${character.hairColor}"></td>
+                        <td th:text="${character.height}"></td>
+                        <td th:text="${character.mass}"></td>
+                        <td th:text="${character.skinColor}"></td>
+                        <td th:text="${#temporals.format(character.created, @dateFormatDisplay)}"></td>
+                        <td th:text="${#temporals.format(character.edited, @dateFormatDisplay)}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <nav class="d-flex justify-content-end" th:unless="${#lists.isEmpty(characters)}">
+                    <form th:action="@{/characters/search}" method="get"
+                          class="d-flex flex-wrap align-items-center gap-2">
+
+                        <p th:text="#{common.pagination.resultsFound(${totalCount})}" class="me-3"></p>
+                        <p class="me-3">|</p>
+                        <p th:text="#{common.pagination.page(${currentPage})}" class="me-3"></p>
+
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${!hasPreviousPage} ? 'disabled'">
+                                <a class="page-link" th:text="#{common.pagination.previous}" href="#"
+                                   th:href="@{/characters/search(page=${currentPage - 1}, query=${query})}"
+                                   th:unless="${!hasPreviousPage}">Previous</a>
+                                <span class="page-link" th:if="${!hasPreviousPage}"
+                                      th:text="#{common.pagination.previous}">Previous</span>
+                            </li>
+                            <li class="page-item" th:classappend="${!hasNextPage} ? 'disabled'">
+                                <a class="page-link" th:text="#{common.pagination.next}" href="#"
+                                   th:href="@{/characters/search(page=${currentPage + 1}, query=${query})}"
+                                   th:unless="${!hasNextPage}">Next</a>
+                                <span class="page-link" th:if="${!hasNextPage}"
+                                      th:text="#{common.pagination.next}">Next</span>
+                            </li>
+                        </ul>
+                    </form>
+                </nav>
+
+                <div th:if="${#lists.isEmpty(characters)}" class="alert alert-warning">
+                    <p th:text="#{characters.search.no_results}">No characters found matching your search criteria.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<th:block th:replace="~{fragments/footer :: footer}"/>
+<th:block th:replace="~{fragments/bodyDependencies :: bodyDependencies}"/>
+</body>
+</html>
