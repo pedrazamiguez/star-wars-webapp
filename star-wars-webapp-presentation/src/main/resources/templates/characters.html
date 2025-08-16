@@ -64,10 +64,27 @@
                         <td th:text="${character.mass}"></td>
                         <td th:text="${character.skinColor}"></td>
                         <td th:text="${#temporals.format(character.created, @dateFormatDisplay)}"></td>
-                        <td th:text="${#temporals.format(character.edited, 'dd MMM yyyy HH:mm:ss')}"></td>
+                        <td th:text="${#temporals.format(character.edited, @dateFormatDisplay)}"></td>
                     </tr>
                     </tbody>
                 </table>
+
+                <nav th:unless="${#lists.isEmpty(characters)}">
+                    <form th:action="@{/characters/search}" method="get"
+                          class="d-flex flex-wrap align-items-center gap-2">
+                        <p th:text="#{common.pagination.page} + ' ' + ${currentPage}"></p>
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${currentPage <= 1} ? 'disabled'">
+                                <a class="page-link" th:text="#{common.pagination.previous}" href="#"
+                                   th:href="@{/characters/search(page=${currentPage - 1}, query=${query})}">Previous</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" th:text="#{common.pagination.next}" href="#"
+                                   th:href="@{/characters/search(page=${currentPage + 1}, query=${query})}">Next</a>
+                            </li>
+                        </ul>
+                    </form>
+                </nav>
 
                 <div th:if="${#lists.isEmpty(characters)}" class="alert alert-warning">
                     <p th:text="#{characters.search.no_results}">No characters found matching your search criteria.</p>
