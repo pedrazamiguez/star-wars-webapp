@@ -1,8 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.apiclient.dto;
 
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class PeopleResponseDto {
