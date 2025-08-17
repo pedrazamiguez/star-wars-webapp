@@ -17,3 +17,7 @@ svg {
 td {
     vertical-align: middle;
 }
+
+nav.pagination-container {
+    margin-bottom: 60px;
+}

@@ -59,6 +59,7 @@ public class CharacterClientServiceImpl implements CharacterClientService {
   @Override
   public Character getCharacterById(final Long characterId) {
     log.info("Fetching character with ID {}", characterId);
+
     try {
       final String endpointUrl = String.format("/people/%d", characterId);
       final PersonDto response =

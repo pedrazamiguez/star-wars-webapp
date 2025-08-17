@@ -1,6 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.config;
 
 import es.pedrazamiguez.starwarswebapp.domain.service.client.CharacterClientService;
+import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -17,8 +18,14 @@ public class DataPreloader implements ApplicationRunner {
 
   private final CharacterClientService characterClientService;
 
-  public DataPreloader(final CharacterClientService characterClientService) {
+  private final StarshipClientService starshipClientService;
+
+  public DataPreloader(
+      final CharacterClientService characterClientService,
+      final StarshipClientService starshipClientService) {
+
     this.characterClientService = characterClientService;
+    this.starshipClientService = starshipClientService;
   }
 
   @Override
@@ -28,6 +35,9 @@ public class DataPreloader implements ApplicationRunner {
     try {
       this.characterClientService.fetchAllCharacters();
       log.info("Successfully preloaded all characters from SWAPI.");
+
+      this.starshipClientService.fetchAllStarships();
+      log.info("Successfully preloaded all starships from SWAPI.");
     } catch (final Exception e) {
       log.error("Could not process data preloading: {}", e.getMessage(), e);
     }

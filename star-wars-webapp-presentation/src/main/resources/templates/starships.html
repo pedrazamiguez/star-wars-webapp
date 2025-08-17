@@ -9,7 +9,114 @@
 
 <main>
     <div class="container-xl mt-4">
-        <h1>Starships</h1>
+        <h1 th:text="#{starships.title}">Starships</h1>
+        <p th:text="#{starships.description}">This page lists all starships from the Star Wars universe.</p>
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form class="d-flex flex-wrap align-items-center gap-2" method="get" th:action="@{/starships}">
+                    <div class="flex-grow-1">
+                        <label class="visually-hidden" for="starshipSearchInput" th:text="#{starships.search.label}">Search
+                            Starships</label>
+                        <input aria-label="#{starships.search.placeholder}" class="form-control"
+                               id="starshipSearchInput" name="query"
+                               th:placeholder="#{starships.search.placeholder}"
+                               th:value="${viewModel.query}" type="text">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" disabled id="starshipSearchButton"
+                                th:text="#{common.search}" type="submit">Search
+                        </button>
+                        <a class="btn btn-outline-secondary disabled" id="starshipClearButton" th:href="@{/starships}"
+                           th:text="#{common.search.clear}">Clear Search</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <table class="table table-striped" th:unless="${#lists.isEmpty(viewModel.starships)}">
+                    <thead>
+                    <tr>
+                        <th th:text="#{common.table.header.id}">ID</th>
+                        <th>
+                            <a th:href="@{/starships(query=${viewModel.query}, page=${viewModel.currentPage}, sortBy='name', sortDirection=${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc' ? 'desc' : 'asc'})}">
+                                <span th:text="#{starships.table.header.name}">Name</span>
+                                <th:block th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc'}"
+                                          th:insert="~{fragments/icons :: arrowUp}"/>
+                                <th:block th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'desc'}"
+                                          th:insert="~{fragments/icons :: arrowDown}"/>
+                            </a>
+                        </th>
+                        <th th:text="#{starships.table.header.model}">Model</th>
+                        <th th:text="#{starships.table.header.type}">Type</th>
+                        <th th:text="#{starships.table.header.length}">Length</th>
+                        <th th:text="#{starships.table.header.crew}">Crew</th>
+                        <th th:text="#{starships.table.header.passengers}">Passengers</th>
+                        <th>
+                            <a th:href="@{/starships(query=${viewModel.query}, page=${viewModel.currentPage}, sortBy='created', sortDirection=${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc' ? 'desc' : 'asc'})}">
+                                <span th:text="#{starships.table.header.created}">Created Date</span>
+                                <th:block th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc'}"
+                                          th:insert="~{fragments/icons :: arrowUp}"/>
+                                <th:block th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'desc'}"
+                                          th:insert="~{fragments/icons :: arrowDown}"/>
+                            </a>
+                        </th>
+                        <th th:text="#{starships.table.header.edited}">Edited Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="starship : ${viewModel.starships}">
+                        <td th:text="${starship.starshipId}"></td>
+                        <td th:text="${starship.name}"></td>
+                        <td th:text="${starship.model}"></td>
+                        <td th:text="${starship.type}"></td>
+                        <td th:text="${starship.length}"></td>
+                        <td th:text="${starship.crew}"></td>
+                        <td th:text="${starship.passengers}"></td>
+                        <td th:text="${#temporals.format(starship.created, @dateFormatDisplay)}"></td>
+                        <td th:text="${#temporals.format(starship.edited, @dateFormatDisplay)}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <nav class="d-flex justify-content-end pagination-container"
+                     th:unless="${#lists.isEmpty(viewModel.starships)}">
+                    <form class="d-flex flex-wrap align-items-center gap-2" method="get"
+                          th:action="@{/starships}">
+
+                        <p class="me-3" th:text="#{common.pagination.resultsFound(${viewModel.totalCount})}"></p>
+                        <p class="me-3">|</p>
+                        <p class="me-3" th:text="#{common.pagination.page(${viewModel.currentPage})}"></p>
+
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${!viewModel.hasPreviousPage} ? 'disabled'">
+                                <a class="page-link" href="#"
+                                   th:href="@{/starships(page=${viewModel.currentPage - 1}, query=${viewModel.query}, sortBy=${viewModel.sortBy}, sortDirection=${viewModel.sortDirection})}"
+                                   th:text="#{common.pagination.previous}"
+                                   th:unless="${!viewModel.hasPreviousPage}">Previous</a>
+                                <span class="page-link" th:if="${!viewModel.hasPreviousPage}"
+                                      th:text="#{common.pagination.previous}">Previous</span>
+                            </li>
+                            <li class="page-item" th:classappend="${!viewModel.hasNextPage} ? 'disabled'">
+                                <a class="page-link" href="#"
+                                   th:href="@{/starships(page=${viewModel.currentPage + 1}, query=${viewModel.query}, sortBy=${viewModel.sortBy}, sortDirection=${viewModel.sortDirection})}"
+                                   th:text="#{common.pagination.next}"
+                                   th:unless="${!viewModel.hasNextPage}">Next</a>
+                                <span class="page-link" th:if="${!viewModel.hasNextPage}"
+                                      th:text="#{common.pagination.next}">Next</span>
+                            </li>
+                        </ul>
+                    </form>
+                </nav>
+
+                <div class="alert alert-warning" th:if="${#lists.isEmpty(viewModel.starships)}">
+                    <p th:text="#{starships.search.no_results}">No starships found matching your search criteria.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 

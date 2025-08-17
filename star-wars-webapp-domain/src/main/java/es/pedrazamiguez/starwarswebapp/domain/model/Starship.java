@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Starship {
+  private Long starshipId;
   private String name;
   private String model;
   private String type;

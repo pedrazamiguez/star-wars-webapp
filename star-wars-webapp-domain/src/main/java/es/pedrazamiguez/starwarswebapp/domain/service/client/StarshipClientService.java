@@ -5,9 +5,7 @@ import java.util.List;
 
 public interface StarshipClientService {
 
-  List<Starship> getAllStarships(int page);
-
-  List<Starship> searchStarships(String searchTerm, int page);
+  List<Starship> fetchAllStarships();
 
   Starship getStarshipById(Long starshipId);
 }

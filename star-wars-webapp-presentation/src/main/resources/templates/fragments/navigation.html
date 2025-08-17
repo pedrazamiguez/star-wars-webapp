@@ -22,14 +22,18 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activeTab} == 'characters' ? ' active fw-bold text-primary' : ''" href="#" th:href="@{/characters}">
+                        <a class="nav-link"
+                           href="#" th:classappend="${activeTab} == 'characters' ? ' active fw-bold text-primary' : ''"
+                           th:href="@{/characters}">
                             <th:block th:insert="~{fragments/icons :: characters}"/>
                             <span th:text="#{navigation.characters}">Characters</span>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" th:classappend="${activeTab} == 'starships' ? ' active fw-bold text-primary' : ''" href="#" th:href="@{/starships}">
+                        <a class="nav-link"
+                           href="#" th:classappend="${activeTab} == 'starships' ? ' active fw-bold text-primary' : ''"
+                           th:href="@{/starships}">
                             <th:block th:insert="~{fragments/icons :: starships}"/>
                             <span th:text="#{navigation.starships}">Starships</span>
                         </a>
@@ -47,8 +51,8 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="#" th:href="@{?language=en}">
-                                    <th:block th:insert="~{fragments/icons :: squareRoundedChecked}"
-                                              th:if="__${#locale}__ == 'en'"/>
+                                    <th:block th:if="__${#locale}__ == 'en'"
+                                              th:insert="~{fragments/icons :: squareRoundedChecked}"/>
                                     <th:block th:insert="~{fragments/icons :: squareRoundedUnchecked}"
                                               th:unless="__${#locale}__ == 'en'"/>
                                     <span th:text="#{navigation.languages.english}">English</span>
@@ -56,8 +60,8 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#" th:href="@{?language=es}">
-                                    <th:block th:insert="~{fragments/icons :: squareRoundedChecked}"
-                                              th:if="__${#locale}__ == 'es'"/>
+                                    <th:block th:if="__${#locale}__ == 'es'"
+                                              th:insert="~{fragments/icons :: squareRoundedChecked}"/>
                                     <th:block th:insert="~{fragments/icons :: squareRoundedUnchecked}"
                                               th:unless="__${#locale}__ == 'es'"/>
                                     <span th:text="#{navigation.languages.spanish}">Spanish</span>

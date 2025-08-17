@@ -1,0 +1,31 @@
+package es.pedrazamiguez.starwarswebapp.application.service.sorting;
+
+import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
+import es.pedrazamiguez.starwarswebapp.domain.service.sorting.StarshipSortingService;
+import java.util.Comparator;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+public class StarshipNameSortingServiceImpl implements StarshipSortingService {
+
+  @Override
+  public Comparator<Starship> getComparator(final String sortDirection) {
+    log.debug("Sorting starships by {} in {} order", this.getSortBy(), sortDirection);
+
+    Comparator<Starship> comparator =
+        Comparator.comparing(Starship::getName, String.CASE_INSENSITIVE_ORDER);
+
+    if ("desc".equalsIgnoreCase(sortDirection)) {
+      comparator = comparator.reversed();
+    }
+
+    return comparator;
+  }
+
+  @Override
+  public String getSortBy() {
+    return "name";
+  }
+}
