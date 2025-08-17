@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'jacoco-report-aggregation'
+    alias libs.plugins.sonarqube
     alias libs.plugins.spring.boot apply false
 }
 
@@ -18,12 +20,53 @@ subprojects {
             languageVersion = JavaLanguageVersion.of(21)
         }
     }
+
+    if (project.name != 'star-wars-webapp-domain') {
+        apply plugin: 'jacoco'
+
+        jacoco {
+            toolVersion = libs.versions.jacoco.get()
+        }
+
+        tasks.test {
+            useJUnitPlatform()
+            finalizedBy jacocoTestReport
+        }
+
+        tasks.jacocoTestReport {
+            reports {
+                xml.required = true
+                html.required = true
+            }
+        }
+    }
 }
+
+dependencies {
+    jacocoAggregation project(':star-wars-webapp-application')
+    jacocoAggregation project(':star-wars-webapp-presentation')
+    jacocoAggregation project(':star-wars-webapp-infrastructure:star-wars-webapp-api-client')
+    jacocoAggregation project(':star-wars-webapp-boot')
+}
+
+reporting {
+    reports {
+        testCodeCoverageReport(JacocoCoverageReport)
+    }
+}
+
+sonar {
+    properties {
+        property 'sonar.projectKey', 'StarWarsWebApp'
+        property 'sonar.exclusions', '**/config/**,**/entity/**,**/model/**,**/dto/**,**/exception/**,**/*Application.java'
+    }
+}
+
+tasks.sonar.dependsOn 'test', 'testCodeCoverageReport'
 
 configure([project(':star-wars-webapp-application'),
            project(':star-wars-webapp-presentation'),
-           project(':star-wars-webapp-infrastructure:star-wars-webapp-api-client')
-]) {
+           project(':star-wars-webapp-infrastructure:star-wars-webapp-api-client')]) {
 
     dependencies {
         implementation platform(libs.spring.boot.bom)
@@ -46,8 +89,7 @@ configure([project(':star-wars-webapp-application'),
     }
 }
 
-configure([project(':star-wars-webapp-boot')
-]) {
+configure([project(':star-wars-webapp-boot')]) {
 
     dependencies {
         implementation platform(libs.spring.boot.bom)
