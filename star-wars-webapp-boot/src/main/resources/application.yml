@@ -5,8 +5,16 @@ spring:
   thymeleaf:
     cache: false
 
+  cache:
+    type: caffeine
+    cache-names: allCharacters,allStarships
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=600s
+
 swapi:
   base-url: https://swapi.dev/api
+  default-page-size: 15
+  load-data-on-startup: true
 
 date:
   format:

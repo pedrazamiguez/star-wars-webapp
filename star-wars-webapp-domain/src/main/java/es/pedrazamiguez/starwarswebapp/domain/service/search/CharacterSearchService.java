@@ -1,10 +1,8 @@
-package es.pedrazamiguez.starwarswebapp.domain.usecase;
+package es.pedrazamiguez.starwarswebapp.domain.service.search;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 
-@FunctionalInterface
-public interface SearchCharactersUseCase {
-
+public interface CharacterSearchService {
   PaginatedCharacters searchCharacters(
       String searchTerm, int page, String sortBy, String sortDirection);
 }

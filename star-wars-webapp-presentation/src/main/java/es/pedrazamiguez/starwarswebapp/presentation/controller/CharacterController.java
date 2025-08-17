@@ -1,8 +1,9 @@
 package es.pedrazamiguez.starwarswebapp.presentation.controller;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
-import es.pedrazamiguez.starwarswebapp.domain.usecase.ListCharactersUseCase;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchCharactersUseCase;
+import es.pedrazamiguez.starwarswebapp.presentation.mapper.CharacterViewModelMapper;
+import es.pedrazamiguez.starwarswebapp.presentation.view.CharacterViewModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,54 +18,29 @@ public class CharacterController {
 
   private static final String TEMPLATE_NAME = "characters";
 
-  private static final String ATTRIBUTE_CHARACTERS = "characters";
-
-  private static final String ATTRIBUTE_CURRENT_PAGE = "currentPage";
-
-  private static final String ATTRIBUTE_QUERY = "query";
-
-  private static final String ATTRIBUTE_TOTAL_COUNT = "totalCount";
-
-  private static final String ATTRIBUTE_HAS_NEXT_PAGE = "hasNextPage";
-
-  private static final String ATTRIBUTE_HAS_PREVIOUS_PAGE = "hasPreviousPage";
-
-  private final ListCharactersUseCase listCharactersUseCase;
+  private static final String ATTRIBUTE_VIEW_MODEL = "viewModel";
 
   private final SearchCharactersUseCase searchCharactersUseCase;
 
+  private final CharacterViewModelMapper characterViewModelMapper;
+
   @GetMapping
-  public String listCharacters(
-      @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
-      final Model model) {
-
-    final PaginatedCharacters paginatedCharacters = this.listCharactersUseCase.listCharacters(page);
-
-    model.addAttribute(ATTRIBUTE_CHARACTERS, paginatedCharacters.getCharacters());
-    model.addAttribute(ATTRIBUTE_CURRENT_PAGE, page);
-    model.addAttribute(ATTRIBUTE_QUERY, "");
-    model.addAttribute(ATTRIBUTE_TOTAL_COUNT, paginatedCharacters.getTotalCount());
-    model.addAttribute(ATTRIBUTE_HAS_NEXT_PAGE, paginatedCharacters.isHasNext());
-    model.addAttribute(ATTRIBUTE_HAS_PREVIOUS_PAGE, paginatedCharacters.isHasPrevious());
-
-    return TEMPLATE_NAME;
-  }
-
-  @GetMapping("/search")
   public String searchCharacters(
       @RequestParam(value = "query", required = false, defaultValue = "") final String query,
       @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
+      @RequestParam(value = "sortBy", required = false, defaultValue = "") final String sortBy,
+      @RequestParam(value = "sortDirection", required = false, defaultValue = "")
+          final String sortDirection,
       final Model model) {
 
     final PaginatedCharacters paginatedCharacters =
-        this.searchCharactersUseCase.searchCharacters(query, page);
+        this.searchCharactersUseCase.searchCharacters(query, page, sortBy, sortDirection);
 
-    model.addAttribute(ATTRIBUTE_CHARACTERS, paginatedCharacters.getCharacters());
-    model.addAttribute(ATTRIBUTE_CURRENT_PAGE, page);
-    model.addAttribute(ATTRIBUTE_QUERY, query);
-    model.addAttribute(ATTRIBUTE_TOTAL_COUNT, paginatedCharacters.getTotalCount());
-    model.addAttribute(ATTRIBUTE_HAS_NEXT_PAGE, paginatedCharacters.isHasNext());
-    model.addAttribute(ATTRIBUTE_HAS_PREVIOUS_PAGE, paginatedCharacters.isHasPrevious());
+    final CharacterViewModel characterViewModel =
+        this.characterViewModelMapper.toViewModel(
+            paginatedCharacters, query, page, sortBy, sortDirection);
+
+    model.addAttribute(ATTRIBUTE_VIEW_MODEL, characterViewModel);
 
     return TEMPLATE_NAME;
   }

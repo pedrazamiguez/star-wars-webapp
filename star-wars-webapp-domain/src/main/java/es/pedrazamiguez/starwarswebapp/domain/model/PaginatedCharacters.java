@@ -9,14 +9,14 @@ import lombok.Data;
 @Builder
 public class PaginatedCharacters {
   private List<Character> characters;
-  private Long totalCount;
+  private int totalCount;
   private boolean hasNext;
   private boolean hasPrevious;
 
   public static PaginatedCharacters empty() {
     return PaginatedCharacters.builder()
         .characters(Collections.emptyList())
-        .totalCount(0L)
+        .totalCount(0)
         .hasNext(false)
         .hasPrevious(false)
         .build();
