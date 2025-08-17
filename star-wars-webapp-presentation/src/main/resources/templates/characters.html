@@ -44,10 +44,10 @@
                         <th>
                             <a th:href="@{/characters(query=${viewModel.query}, page=${viewModel.currentPage}, sortBy='name', sortDirection=${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc' ? 'desc' : 'asc'})}">
                                 <span th:text="#{characters.table.header.name}">Name</span>
-                                <th:block th:insert="~{fragments/icons :: arrowUp}"
-                                          th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc'}"/>
-                                <th:block th:insert="~{fragments/icons :: arrowDown}"
-                                          th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'desc'}"/>
+                                <th:block th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc'}"
+                                          th:insert="~{fragments/icons :: arrowUp}"/>
+                                <th:block th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'desc'}"
+                                          th:insert="~{fragments/icons :: arrowDown}"/>
                             </a>
                         </th>
                         <th th:text="#{characters.table.header.birth_year}">Birth Year</th>
@@ -60,10 +60,10 @@
                         <th>
                             <a th:href="@{/characters(query=${viewModel.query}, page=${viewModel.currentPage}, sortBy='created', sortDirection=${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc' ? 'desc' : 'asc'})}">
                                 <span th:text="#{characters.table.header.created}">Created Date</span>
-                                <th:block th:insert="~{fragments/icons :: arrowUp}"
-                                          th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc'}"/>
-                                <th:block th:insert="~{fragments/icons :: arrowDown}"
-                                          th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'desc'}"/>
+                                <th:block th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc'}"
+                                          th:insert="~{fragments/icons :: arrowUp}"/>
+                                <th:block th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'desc'}"
+                                          th:insert="~{fragments/icons :: arrowDown}"/>
                             </a>
                         </th>
                         <th th:text="#{characters.table.header.edited}">Edited Date</th>
@@ -86,7 +86,8 @@
                     </tbody>
                 </table>
 
-                <nav class="d-flex justify-content-end" th:unless="${#lists.isEmpty(viewModel.characters)}">
+                <nav class="d-flex justify-content-end pagination-container"
+                     th:unless="${#lists.isEmpty(viewModel.characters)}">
                     <form class="d-flex flex-wrap align-items-center gap-2" method="get"
                           th:action="@{/characters}">
 

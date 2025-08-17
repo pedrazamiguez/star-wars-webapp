@@ -3,12 +3,15 @@ package es.pedrazamiguez.starwarswebapp.apiclient.service.client;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipsResponseDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.mapper.StarshipDtoMapper;
+import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestClient;
@@ -31,53 +34,32 @@ public class StarshipClientServiceImpl implements StarshipClientService {
   }
 
   @Override
-  public List<Starship> getAllStarships(final int page) {
-    log.info("Fetching starships for page {}", page);
-    try {
-      final String endpointUrl = String.format("/starships?page=%d", page);
-      final StarshipsResponseDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(StarshipsResponseDto.class);
+  @Cacheable("allStarships")
+  public List<Starship> fetchAllStarships() {
+    log.info("Fetching all starships from SWAPI");
+    final List<Starship> allStarships = new ArrayList<>();
 
-      if (!ObjectUtils.isEmpty(response) && !ObjectUtils.isEmpty(response.getResults())) {
-        return response.getResults().stream().map(this.starshipDtoMapper::toStarship).toList();
+    int page = 1;
+    PaginatedStarships paginatedStarships;
+
+    do {
+      paginatedStarships = this.getPaginatedStarships(page);
+      if (!ObjectUtils.isEmpty(paginatedStarships)
+          && !ObjectUtils.isEmpty(paginatedStarships.getStarships())) {
+        allStarships.addAll(paginatedStarships.getStarships());
+        page++;
+      } else {
+        break;
       }
+    } while (paginatedStarships.isHasNext());
 
-      log.warn("No results found for page {}", page);
-      return Collections.emptyList();
-    } catch (final Exception e) {
-      log.error("Failed to fetch starships for page {}: {}", page, e.getMessage(), e);
-      return Collections.emptyList();
-    }
-  }
-
-  @Override
-  public List<Starship> searchStarships(final String searchTerm, final int page) {
-    log.info("Searching starships for term '{}' on page {}", searchTerm, page);
-    try {
-      final String endpointUrl = String.format("/starships?search=%s&page=%d", searchTerm, page);
-      final StarshipsResponseDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(StarshipsResponseDto.class);
-
-      if (!ObjectUtils.isEmpty(response) && !ObjectUtils.isEmpty(response.getResults())) {
-        return response.getResults().stream().map(this.starshipDtoMapper::toStarship).toList();
-      }
-
-      log.warn("No results found for search term '{}' on page {}", searchTerm, page);
-      return Collections.emptyList();
-    } catch (final Exception e) {
-      log.error(
-          "Failed to search starships for term '{}' on page {}: {}",
-          searchTerm,
-          page,
-          e.getMessage(),
-          e);
-      return Collections.emptyList();
-    }
+    return allStarships;
   }
 
   @Override
   public Starship getStarshipById(final Long starshipId) {
     log.info("Fetching starship with ID {}", starshipId);
+
     try {
       final String endpointUrl = String.format("/starships/%d", starshipId);
       final StarshipDto response =
@@ -92,6 +74,22 @@ public class StarshipClientServiceImpl implements StarshipClientService {
     } catch (final Exception e) {
       log.error("Failed to fetch starship with ID {}: {}", starshipId, e.getMessage(), e);
       return null;
+    }
+  }
+
+  private PaginatedStarships getPaginatedStarships(final int page) {
+    log.info("Fetching starships on page {}", page);
+    try {
+      final String endpointUrl = String.format("/starships?page=%d", page);
+      final StarshipsResponseDto response =
+          this.restClient.get().uri(endpointUrl).retrieve().body(StarshipsResponseDto.class);
+
+      return Optional.ofNullable(response)
+          .map(this.starshipDtoMapper::toPaginatedStarships)
+          .orElse(PaginatedStarships.empty());
+    } catch (final Exception e) {
+      log.error("Failed to fetch starships on page {}: {}", page, e.getMessage(), e);
+      return PaginatedStarships.empty();
     }
   }
 }

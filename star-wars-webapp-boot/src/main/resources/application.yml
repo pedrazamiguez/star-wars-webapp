@@ -13,7 +13,7 @@ spring:
 
 swapi:
   base-url: https://swapi.dev/api
-  default-page-size: 15
+  default-page-size: 10
   load-data-on-startup: true
 
 date:
