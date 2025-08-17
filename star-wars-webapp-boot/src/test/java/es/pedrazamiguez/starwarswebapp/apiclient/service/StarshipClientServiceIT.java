@@ -3,6 +3,7 @@ package es.pedrazamiguez.starwarswebapp.apiclient.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import es.pedrazamiguez.starwarswebapp.apiclient.service.client.StarshipClientServiceImpl;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import java.util.List;
 import org.junit.jupiter.api.Test;

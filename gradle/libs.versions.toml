@@ -4,15 +4,18 @@ junit = "5.10.0"
 mapstruct = "1.6.3"
 mockito = "5.12.0"
 lombok = "1.18.34"
+caffeine = "3.2.2"
 
 [libraries]
 spring-boot-bom = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-thymeleaf = { module = "org.springframework.boot:spring-boot-starter-thymeleaf" }
+spring-boot-starter-cache = { module = "org.springframework.boot:spring-boot-starter-cache" }
 
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 
+caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind" }
 
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }

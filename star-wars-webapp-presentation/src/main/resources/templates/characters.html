@@ -18,7 +18,8 @@
                     <div class="flex-grow-1">
                         <label class="visually-hidden" for="characterSearchInput" th:text="#{characters.search.label}">Search
                             Characters</label>
-                        <input aria-label="#{characters.search.placeholder}" class="form-control" id="characterSearchInput" name="query"
+                        <input aria-label="#{characters.search.placeholder}" class="form-control"
+                               id="characterSearchInput" name="query"
                                th:placeholder="#{characters.search.placeholder}"
                                th:value="${viewModel.query}" type="text">
                     </div>
@@ -40,7 +41,38 @@
                     <thead>
                     <tr>
                         <th th:text="#{common.table.header.id}">ID</th>
-                        <th th:text="#{characters.table.header.name}">Name</th>
+                        <th>
+                            <a th:href="@{/characters(query=${viewModel.query}, page=${viewModel.currentPage}, sortBy='name', sortDirection=${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc' ? 'desc' : 'asc'})}">
+                                <span th:text="#{characters.table.header.name}">Name</span>
+
+                                <svg class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-up"
+                                     fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                                     stroke-linejoin="round" stroke-width="2"
+                                     th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'asc'}"
+                                     viewBox="0 0 24 24"
+                                     width="24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none" stroke="none"/>
+                                    <path d="M12 5l0 14"/>
+                                    <path d="M18 11l-6 -6"/>
+                                    <path d="M6 11l6 -6"/>
+                                </svg>
+
+                                <svg class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-down"
+                                     fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                                     stroke-linejoin="round" stroke-width="2"
+                                     th:if="${viewModel.sortBy == 'name' and viewModel.sortDirection == 'desc'}"
+                                     viewBox="0 0 24 24"
+                                     width="24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none" stroke="none"/>
+                                    <path d="M12 5l0 14"/>
+                                    <path d="M18 13l-6 6"/>
+                                    <path d="M6 13l6 6"/>
+                                </svg>
+
+                            </a>
+                        </th>
                         <th th:text="#{characters.table.header.birth_year}">Birth Year</th>
                         <th th:text="#{characters.table.header.eye_color}">Eye Color</th>
                         <th th:text="#{characters.table.header.gender}">Gender</th>
@@ -48,7 +80,38 @@
                         <th th:text="#{characters.table.header.height}">Height</th>
                         <th th:text="#{characters.table.header.mass}">Mass</th>
                         <th th:text="#{characters.table.header.skin_color}">Skin Color</th>
-                        <th th:text="#{characters.table.header.created}">Created Date</th>
+                        <th>
+                            <a th:href="@{/characters(query=${viewModel.query}, page=${viewModel.currentPage}, sortBy='created', sortDirection=${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc' ? 'desc' : 'asc'})}">
+                                <span th:text="#{characters.table.header.created}">Created Date</span>
+
+                                <svg class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-up"
+                                     fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                                     stroke-linejoin="round" stroke-width="2"
+                                     th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'asc'}"
+                                     viewBox="0 0 24 24"
+                                     width="24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none" stroke="none"/>
+                                    <path d="M12 5l0 14"/>
+                                    <path d="M18 11l-6 -6"/>
+                                    <path d="M6 11l6 -6"/>
+                                </svg>
+
+                                <svg class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-down"
+                                     fill="none" height="24" stroke="currentColor" stroke-linecap="round"
+                                     stroke-linejoin="round" stroke-width="2"
+                                     th:if="${viewModel.sortBy == 'created' and viewModel.sortDirection == 'desc'}"
+                                     viewBox="0 0 24 24"
+                                     width="24"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M0 0h24v24H0z" fill="none" stroke="none"/>
+                                    <path d="M12 5l0 14"/>
+                                    <path d="M18 13l-6 6"/>
+                                    <path d="M6 13l6 6"/>
+                                </svg>
+
+                            </a>
+                        </th>
                         <th th:text="#{characters.table.header.edited}">Edited Date</th>
                     </tr>
                     </thead>
@@ -79,14 +142,16 @@
 
                         <ul class="pagination">
                             <li class="page-item" th:classappend="${!viewModel.hasPreviousPage} ? 'disabled'">
-                                <a class="page-link" href="#" th:href="@{/characters(page=${viewModel.currentPage - 1}, query=${viewModel.query})}"
+                                <a class="page-link" href="#"
+                                   th:href="@{/characters(page=${viewModel.currentPage - 1}, query=${viewModel.query}, sortBy=${viewModel.sortBy}, sortDirection=${viewModel.sortDirection})}"
                                    th:text="#{common.pagination.previous}"
                                    th:unless="${!viewModel.hasPreviousPage}">Previous</a>
                                 <span class="page-link" th:if="${!viewModel.hasPreviousPage}"
                                       th:text="#{common.pagination.previous}">Previous</span>
                             </li>
                             <li class="page-item" th:classappend="${!viewModel.hasNextPage} ? 'disabled'">
-                                <a class="page-link" href="#" th:href="@{/characters(page=${viewModel.currentPage + 1}, query=${viewModel.query})}"
+                                <a class="page-link" href="#"
+                                   th:href="@{/characters(page=${viewModel.currentPage + 1}, query=${viewModel.query}, sortBy=${viewModel.sortBy}, sortDirection=${viewModel.sortDirection})}"
                                    th:text="#{common.pagination.next}"
                                    th:unless="${!viewModel.hasNextPage}">Next</a>
                                 <span class="page-link" th:if="${!viewModel.hasNextPage}"

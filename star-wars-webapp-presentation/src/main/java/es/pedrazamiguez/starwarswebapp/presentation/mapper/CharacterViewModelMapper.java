@@ -15,5 +15,10 @@ public interface CharacterViewModelMapper {
   @Mapping(target = "hasPreviousPage", source = "paginatedCharacters.hasPrevious")
   @Mapping(target = "query", source = "query")
   @Mapping(target = "currentPage", source = "page")
-  CharacterViewModel toViewModel(PaginatedCharacters paginatedCharacters, String query, int page);
+  CharacterViewModel toViewModel(
+      PaginatedCharacters paginatedCharacters,
+      String query,
+      int page,
+      String sortBy,
+      String sortDirection);
 }

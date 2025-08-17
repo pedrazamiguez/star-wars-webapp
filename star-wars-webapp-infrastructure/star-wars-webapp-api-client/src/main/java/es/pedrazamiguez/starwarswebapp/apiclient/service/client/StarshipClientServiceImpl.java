@@ -1,10 +1,10 @@
-package es.pedrazamiguez.starwarswebapp.apiclient.service;
+package es.pedrazamiguez.starwarswebapp.apiclient.service.client;
 
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipsResponseDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.mapper.StarshipDtoMapper;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
-import es.pedrazamiguez.starwarswebapp.domain.service.StarshipClientService;
+import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
 import java.util.Collections;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
