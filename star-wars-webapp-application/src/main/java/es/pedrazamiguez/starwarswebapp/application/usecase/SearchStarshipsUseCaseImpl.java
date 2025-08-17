@@ -18,7 +18,7 @@ public class SearchStarshipsUseCaseImpl implements SearchStarshipsUseCase {
   public PaginatedStarships searchStarships(
       final String searchTerm, final int page, final String sortBy, final String sortDirection) {
 
-    log.info("Searching characters for term '{}' on page {}", searchTerm, page);
+    log.info("Searching starships for term '{}' on page {}", searchTerm, page);
     return this.starshipSearchService.searchStarships(
         searchTerm.trim(), page, sortBy, sortDirection);
   }
