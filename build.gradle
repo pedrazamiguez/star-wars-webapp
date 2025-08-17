@@ -82,6 +82,7 @@ configure([project(':star-wars-webapp-application'),
 
         testImplementation libs.mockito.core
         testImplementation libs.mockito.junit
+        testImplementation libs.instancio
     }
 
     tasks.withType(Test).configureEach {
