@@ -20,14 +20,14 @@ import org.springframework.util.ObjectUtils;
 @Service
 public class CharacterSearchServiceImpl implements CharacterSearchService {
 
-  private final long pageSize;
+  private final int pageSize;
 
   private final CharacterClientService characterClientService;
 
   private final Map<String, CharacterSortingService> characterSortingServices;
 
   public CharacterSearchServiceImpl(
-      @Value("${swapi.default-page-size}") final long defaultPageSize,
+      @Value("${swapi.default-page-size}") final int defaultPageSize,
       final CharacterClientService characterClientService,
       final List<CharacterSortingService> characterSortingServices) {
 
@@ -49,9 +49,8 @@ public class CharacterSearchServiceImpl implements CharacterSearchService {
         sortBy,
         sortDirection);
 
-    final List<es.pedrazamiguez.starwarswebapp.domain.model.Character> characters =
-        this.characterClientService.fetchAllCharacters();
-    final List<es.pedrazamiguez.starwarswebapp.domain.model.Character> filteredCharacters =
+    final List<Character> characters = this.characterClientService.fetchAllCharacters();
+    final List<Character> filteredCharacters =
         characters.stream()
             .filter(
                 character ->
@@ -64,14 +63,14 @@ public class CharacterSearchServiceImpl implements CharacterSearchService {
 
     if (!ObjectUtils.isEmpty(characterSortingService)) {
 
-      final Comparator<es.pedrazamiguez.starwarswebapp.domain.model.Character> characterComparator =
+      final Comparator<Character> characterComparator =
           characterSortingService.getComparator(sortDirection);
 
       filteredCharacters.sort(characterComparator);
     }
 
-    final int from = Math.toIntExact((page - 1) * this.pageSize);
-    final int to = Math.toIntExact(Math.min(from + this.pageSize, filteredCharacters.size()));
+    final int from = (page - 1) * this.pageSize;
+    final int to = Math.min(from + this.pageSize, filteredCharacters.size());
 
     final List<Character> pageSlice =
         (from < filteredCharacters.size())

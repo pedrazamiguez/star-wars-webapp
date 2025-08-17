@@ -8,7 +8,7 @@ import lombok.Data;
 public class CharacterViewModel {
   private List<Character> characters;
   private String query;
-  private Long totalCount;
+  private int totalCount;
   private int currentPage;
   private boolean hasNextPage;
   private boolean hasPreviousPage;
