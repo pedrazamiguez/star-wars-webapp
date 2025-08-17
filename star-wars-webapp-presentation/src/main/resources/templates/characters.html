@@ -14,19 +14,19 @@
 
         <div class="row mb-3">
             <div class="col-md-6">
-                <form th:action="@{/characters/search}" method="get" class="d-flex flex-wrap align-items-center gap-2">
+                <form class="d-flex flex-wrap align-items-center gap-2" method="get" th:action="@{/characters}">
                     <div class="flex-grow-1">
-                        <label th:text="#{characters.search.label}" for="characterSearchInput" class="visually-hidden">Search
+                        <label class="visually-hidden" for="characterSearchInput" th:text="#{characters.search.label}">Search
                             Characters</label>
-                        <input type="text" id="characterSearchInput" name="query" class="form-control"
+                        <input aria-label="#{characters.search.placeholder}" class="form-control" id="characterSearchInput" name="query"
                                th:placeholder="#{characters.search.placeholder}"
-                               aria-label="#{characters.search.placeholder}" th:value="${query}">
+                               th:value="${viewModel.query}" type="text">
                     </div>
                     <div class="d-flex gap-2">
-                        <button id="characterSearchButton" class="btn btn-primary" type="submit"
-                                th:text="#{common.search}" disabled>Search
+                        <button class="btn btn-primary" disabled id="characterSearchButton"
+                                th:text="#{common.search}" type="submit">Search
                         </button>
-                        <a id="characterClearButton" th:href="@{/characters}" class="btn btn-outline-secondary disabled"
+                        <a class="btn btn-outline-secondary disabled" id="characterClearButton" th:href="@{/characters}"
                            th:text="#{common.search.clear}">Clear Search</a>
                     </div>
                 </form>
@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-md-12">
 
-                <table class="table table-striped" th:unless="${#lists.isEmpty(characters)}">
+                <table class="table table-striped" th:unless="${#lists.isEmpty(viewModel.characters)}">
                     <thead>
                     <tr>
                         <th th:text="#{common.table.header.id}">ID</th>
@@ -53,7 +53,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="character : ${characters}">
+                    <tr th:each="character : ${viewModel.characters}">
                         <td th:text="${character.characterId}"></td>
                         <td th:text="${character.name}"></td>
                         <td th:text="${character.birthYear}"></td>
@@ -69,34 +69,34 @@
                     </tbody>
                 </table>
 
-                <nav class="d-flex justify-content-end" th:unless="${#lists.isEmpty(characters)}">
-                    <form th:action="@{/characters/search}" method="get"
-                          class="d-flex flex-wrap align-items-center gap-2">
+                <nav class="d-flex justify-content-end" th:unless="${#lists.isEmpty(viewModel.characters)}">
+                    <form class="d-flex flex-wrap align-items-center gap-2" method="get"
+                          th:action="@{/characters}">
 
-                        <p th:text="#{common.pagination.resultsFound(${totalCount})}" class="me-3"></p>
+                        <p class="me-3" th:text="#{common.pagination.resultsFound(${viewModel.totalCount})}"></p>
                         <p class="me-3">|</p>
-                        <p th:text="#{common.pagination.page(${currentPage})}" class="me-3"></p>
+                        <p class="me-3" th:text="#{common.pagination.page(${viewModel.currentPage})}"></p>
 
                         <ul class="pagination">
-                            <li class="page-item" th:classappend="${!hasPreviousPage} ? 'disabled'">
-                                <a class="page-link" th:text="#{common.pagination.previous}" href="#"
-                                   th:href="@{/characters/search(page=${currentPage - 1}, query=${query})}"
-                                   th:unless="${!hasPreviousPage}">Previous</a>
-                                <span class="page-link" th:if="${!hasPreviousPage}"
+                            <li class="page-item" th:classappend="${!viewModel.hasPreviousPage} ? 'disabled'">
+                                <a class="page-link" href="#" th:href="@{/characters(page=${viewModel.currentPage - 1}, query=${viewModel.query})}"
+                                   th:text="#{common.pagination.previous}"
+                                   th:unless="${!viewModel.hasPreviousPage}">Previous</a>
+                                <span class="page-link" th:if="${!viewModel.hasPreviousPage}"
                                       th:text="#{common.pagination.previous}">Previous</span>
                             </li>
-                            <li class="page-item" th:classappend="${!hasNextPage} ? 'disabled'">
-                                <a class="page-link" th:text="#{common.pagination.next}" href="#"
-                                   th:href="@{/characters/search(page=${currentPage + 1}, query=${query})}"
-                                   th:unless="${!hasNextPage}">Next</a>
-                                <span class="page-link" th:if="${!hasNextPage}"
+                            <li class="page-item" th:classappend="${!viewModel.hasNextPage} ? 'disabled'">
+                                <a class="page-link" href="#" th:href="@{/characters(page=${viewModel.currentPage + 1}, query=${viewModel.query})}"
+                                   th:text="#{common.pagination.next}"
+                                   th:unless="${!viewModel.hasNextPage}">Next</a>
+                                <span class="page-link" th:if="${!viewModel.hasNextPage}"
                                       th:text="#{common.pagination.next}">Next</span>
                             </li>
                         </ul>
                     </form>
                 </nav>
 
-                <div th:if="${#lists.isEmpty(characters)}" class="alert alert-warning">
+                <div class="alert alert-warning" th:if="${#lists.isEmpty(viewModel.characters)}">
                     <p th:text="#{characters.search.no_results}">No characters found matching your search criteria.</p>
                 </div>
             </div>
