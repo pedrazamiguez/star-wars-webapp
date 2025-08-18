@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("it")
-public class StarshipClientServiceIT {
+class StarshipClientServiceIT {
 
   @Autowired
   private StarshipClientServiceImpl starshipClientServiceImpl;
