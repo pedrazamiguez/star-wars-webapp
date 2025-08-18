@@ -61,14 +61,7 @@ class CharacterCreatedDateSortingServiceImplTest {
 
   @Test
   void whenGetSortBy_thenReturnSortBy() {
-    // Given
-    final String sortBy = "created";
-
-    // When
-    final String result = this.characterCreatedDateSortingServiceImpl.getSortBy();
-
-    // Then
-    assertThat(result).isEqualTo(sortBy);
+    assertThat(this.characterCreatedDateSortingServiceImpl.getSortBy()).isEqualTo("created");
   }
 
 }
