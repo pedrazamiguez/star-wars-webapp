@@ -30,7 +30,8 @@ public class CharacterClientServiceImpl implements CharacterClientService {
       final RestClient.Builder restClientBuilder,
       final PersonDtoMapper personDtoMapper) {
 
-    this.restClient = restClientBuilder.baseUrl(baseUrl).build();
+    this.restClient = restClientBuilder.baseUrl(baseUrl)
+        .build();
     this.personDtoMapper = personDtoMapper;
   }
 
@@ -64,7 +65,10 @@ public class CharacterClientServiceImpl implements CharacterClientService {
     try {
       final String endpointUrl = String.format("/people/%d", characterId);
       final PersonDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(PersonDto.class);
+          this.restClient.get()
+              .uri(endpointUrl)
+              .retrieve()
+              .body(PersonDto.class);
 
       if (!ObjectUtils.isEmpty(response)) {
         return this.personDtoMapper.toCharacter(response);
@@ -83,7 +87,10 @@ public class CharacterClientServiceImpl implements CharacterClientService {
     try {
       final String endpointUrl = String.format("/people?page=%d", page);
       final PeopleResponseDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(PeopleResponseDto.class);
+          this.restClient.get()
+              .uri(endpointUrl)
+              .retrieve()
+              .body(PeopleResponseDto.class);
 
       return Optional.ofNullable(response)
           .map(this.personDtoMapper::toPaginatedCharacters)

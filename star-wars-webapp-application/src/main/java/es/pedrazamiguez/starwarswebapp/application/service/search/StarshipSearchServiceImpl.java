@@ -56,7 +56,9 @@ public class StarshipSearchServiceImpl implements StarshipSearchService {
             .filter(
                 starship ->
                     searchTerm.isEmpty()
-                        || starship.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                        || starship.getName()
+                        .toLowerCase()
+                        .contains(searchTerm.toLowerCase()))
             .collect(Collectors.toList());
 
     final StarshipSortingService starshipSortingService = this.starshipSortingServices.get(sortBy);

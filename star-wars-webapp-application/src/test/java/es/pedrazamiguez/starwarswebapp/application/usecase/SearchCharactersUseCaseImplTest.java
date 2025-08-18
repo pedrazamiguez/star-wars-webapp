@@ -35,12 +35,16 @@ class SearchCharactersUseCaseImplTest {
     final String sortBy = "name";
     final String sortDirection = "asc";
 
-    final Character lukeSkywalker =
-        Instancio.of(Character.class).set(field(Character::getName), "Luke Skywalker").create();
+    final Character lukeSkywalker = Instancio.of(Character.class)
+        .set(field(Character::getName), "Luke Skywalker")
+        .create();
 
-    final PaginatedCharacters expected =
-        PaginatedCharacters.builder().characters(List.of(lukeSkywalker)).totalCount(1).hasNext(false).hasPrevious(false)
-            .build();
+    final PaginatedCharacters expected = PaginatedCharacters.builder()
+        .characters(List.of(lukeSkywalker))
+        .totalCount(1)
+        .hasNext(false)
+        .hasPrevious(false)
+        .build();
 
     when(this.characterSearchService.searchCharacters(searchTerm.trim(), page, sortBy, sortDirection)).thenReturn(
         expected);
@@ -50,7 +54,9 @@ class SearchCharactersUseCaseImplTest {
         this.searchCharactersUseCaseImpl.searchCharacters(searchTerm, page, sortBy, sortDirection);
 
     // Then
-    assertThat(actual).isNotNull().usingRecursiveComparison().isEqualTo(expected);
+    assertThat(actual).isNotNull()
+        .usingRecursiveComparison()
+        .isEqualTo(expected);
 
     verify(this.characterSearchService).searchCharacters(searchTerm.trim(), page, sortBy, sortDirection);
     verifyNoMoreInteractions(this.characterSearchService);

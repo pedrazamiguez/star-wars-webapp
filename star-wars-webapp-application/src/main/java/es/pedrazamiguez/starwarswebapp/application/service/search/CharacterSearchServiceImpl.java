@@ -56,7 +56,9 @@ public class CharacterSearchServiceImpl implements CharacterSearchService {
             .filter(
                 character ->
                     searchTerm.isEmpty()
-                        || character.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                        || character.getName()
+                        .toLowerCase()
+                        .contains(searchTerm.toLowerCase()))
             .collect(Collectors.toList());
 
     final CharacterSortingService characterSortingService =

@@ -30,7 +30,8 @@ public class StarshipClientServiceImpl implements StarshipClientService {
       final RestClient.Builder restClientBuilder,
       final StarshipDtoMapper starshipDtoMapper) {
 
-    this.restClient = restClientBuilder.baseUrl(baseUrl).build();
+    this.restClient = restClientBuilder.baseUrl(baseUrl)
+        .build();
     this.starshipDtoMapper = starshipDtoMapper;
   }
 
@@ -64,7 +65,10 @@ public class StarshipClientServiceImpl implements StarshipClientService {
     try {
       final String endpointUrl = String.format("/starships/%d", starshipId);
       final StarshipDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(StarshipDto.class);
+          this.restClient.get()
+              .uri(endpointUrl)
+              .retrieve()
+              .body(StarshipDto.class);
 
       if (!ObjectUtils.isEmpty(response)) {
         return this.starshipDtoMapper.toStarship(response);
@@ -83,7 +87,10 @@ public class StarshipClientServiceImpl implements StarshipClientService {
     try {
       final String endpointUrl = String.format("/starships?page=%d", page);
       final StarshipsResponseDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(StarshipsResponseDto.class);
+          this.restClient.get()
+              .uri(endpointUrl)
+              .retrieve()
+              .body(StarshipsResponseDto.class);
 
       return Optional.ofNullable(response)
           .map(this.starshipDtoMapper::toPaginatedStarships)
