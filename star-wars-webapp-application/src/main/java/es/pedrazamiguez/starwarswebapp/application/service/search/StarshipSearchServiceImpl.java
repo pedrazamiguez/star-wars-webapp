@@ -5,16 +5,17 @@ import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
 import es.pedrazamiguez.starwarswebapp.domain.service.search.StarshipSearchService;
 import es.pedrazamiguez.starwarswebapp.domain.service.sorting.StarshipSortingService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 
 @Slf4j
 @Service
@@ -55,7 +56,9 @@ public class StarshipSearchServiceImpl implements StarshipSearchService {
             .filter(
                 starship ->
                     searchTerm.isEmpty()
-                        || starship.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                        || starship.getName()
+                        .toLowerCase()
+                        .contains(searchTerm.toLowerCase()))
             .collect(Collectors.toList());
 
     final StarshipSortingService starshipSortingService = this.starshipSortingServices.get(sortBy);

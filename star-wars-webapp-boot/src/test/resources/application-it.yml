@@ -1,0 +1,2 @@
+swapi:
+  load-data-on-startup: false

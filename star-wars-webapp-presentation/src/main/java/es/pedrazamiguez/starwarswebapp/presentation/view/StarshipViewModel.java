@@ -1,8 +1,9 @@
 package es.pedrazamiguez.starwarswebapp.presentation.view;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
-import java.util.List;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class StarshipViewModel {

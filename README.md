@@ -2,6 +2,20 @@
 
 A web application displaying characters and starships from Star Wars
 
+## How to run the application on docker
+
+### Build the docker image
+
+```bash
+docker build -t star-wars-webapp .
+```
+
+### Run the docker container
+
+```bash
+docker run -p 6969:6969 star-wars-webapp
+```
+
 ## Certificate for the API URL
 
 At the time of developing, I was getting the following error when trying to access the API URL:

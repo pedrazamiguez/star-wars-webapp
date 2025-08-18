@@ -1,7 +1,8 @@
 package es.pedrazamiguez.starwarswebapp.domain.model;
 
-import java.time.LocalDateTime;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 @Data
 public class Character {

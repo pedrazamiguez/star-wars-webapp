@@ -6,15 +6,16 @@ import es.pedrazamiguez.starwarswebapp.apiclient.mapper.PersonDtoMapper;
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
 import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.CharacterClientService;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestClient;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -29,7 +30,8 @@ public class CharacterClientServiceImpl implements CharacterClientService {
       final RestClient.Builder restClientBuilder,
       final PersonDtoMapper personDtoMapper) {
 
-    this.restClient = restClientBuilder.baseUrl(baseUrl).build();
+    this.restClient = restClientBuilder.baseUrl(baseUrl)
+        .build();
     this.personDtoMapper = personDtoMapper;
   }
 
@@ -63,7 +65,10 @@ public class CharacterClientServiceImpl implements CharacterClientService {
     try {
       final String endpointUrl = String.format("/people/%d", characterId);
       final PersonDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(PersonDto.class);
+          this.restClient.get()
+              .uri(endpointUrl)
+              .retrieve()
+              .body(PersonDto.class);
 
       if (!ObjectUtils.isEmpty(response)) {
         return this.personDtoMapper.toCharacter(response);
@@ -82,7 +87,10 @@ public class CharacterClientServiceImpl implements CharacterClientService {
     try {
       final String endpointUrl = String.format("/people?page=%d", page);
       final PeopleResponseDto response =
-          this.restClient.get().uri(endpointUrl).retrieve().body(PeopleResponseDto.class);
+          this.restClient.get()
+              .uri(endpointUrl)
+              .retrieve()
+              .body(PeopleResponseDto.class);
 
       return Optional.ofNullable(response)
           .map(this.personDtoMapper::toPaginatedCharacters)

@@ -4,11 +4,12 @@ import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipsResponseDto;
 import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,

@@ -29,8 +29,7 @@ public class CharacterController {
       @RequestParam(value = "query", required = false, defaultValue = "") final String query,
       @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
       @RequestParam(value = "sortBy", required = false, defaultValue = "") final String sortBy,
-      @RequestParam(value = "sortDirection", required = false, defaultValue = "")
-          final String sortDirection,
+      @RequestParam(value = "sortDirection", required = false, defaultValue = "") final String sortDirection,
       final Model model) {
 
     final PaginatedCharacters paginatedCharacters =
