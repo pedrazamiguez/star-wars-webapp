@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("it")
-class CharacterClientServiceTest {
+class CharacterClientServiceIT {
 
   @Autowired
   private CharacterClientServiceImpl characterClientServiceImpl;

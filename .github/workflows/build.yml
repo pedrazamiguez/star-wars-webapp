@@ -24,6 +24,15 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
+      - name: Add swapi.dev certificate to JDK
+        run: |
+          sudo apt-get update && sudo apt-get install -y openssl
+          echo | openssl s_client -connect swapi.dev:443 -servername swapi.dev 2>/dev/null | \
+            openssl x509 -outform PEM > swapi.pem
+          sudo keytool -importcert -noprompt -trustcacerts \
+            -alias swapi -file swapi.pem \
+            -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
