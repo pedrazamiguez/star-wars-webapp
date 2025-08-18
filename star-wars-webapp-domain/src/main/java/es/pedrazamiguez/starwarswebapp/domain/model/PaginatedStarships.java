@@ -1,9 +1,10 @@
 package es.pedrazamiguez.starwarswebapp.domain.model;
 
-import java.util.Collections;
-import java.util.List;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.Collections;
+import java.util.List;
 
 @Data
 @Builder

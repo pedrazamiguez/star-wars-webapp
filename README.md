@@ -2,7 +2,6 @@
 
 A web application displaying characters and starships from Star Wars
 
-
 ## How to run the application on docker
 
 ### Build the docker image

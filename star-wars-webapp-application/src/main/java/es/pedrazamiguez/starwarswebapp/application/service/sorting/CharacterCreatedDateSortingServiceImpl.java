@@ -2,9 +2,10 @@ package es.pedrazamiguez.starwarswebapp.application.service.sorting;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
 import es.pedrazamiguez.starwarswebapp.domain.service.sorting.CharacterSortingService;
-import java.util.Comparator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
 
 @Slf4j
 @Service

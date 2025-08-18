@@ -1,11 +1,5 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
-
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
 import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
 import es.pedrazamiguez.starwarswebapp.domain.service.search.CharacterSearchService;
@@ -16,12 +10,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.instancio.Select.field;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class SearchCharactersUseCaseImplTest {
 
-  @InjectMocks private SearchCharactersUseCaseImpl searchCharactersUseCaseImpl;
+  @InjectMocks
+  private SearchCharactersUseCaseImpl searchCharactersUseCaseImpl;
 
-  @Mock private CharacterSearchService characterSearchService;
+  @Mock
+  private CharacterSearchService characterSearchService;
 
   @Test
   void givenSearchParameters_whenSearchCharacters_thenReturnPaginatedCharacters() {
@@ -30,34 +34,25 @@ class SearchCharactersUseCaseImplTest {
     final int page = 1;
     final String sortBy = "name";
     final String sortDirection = "asc";
-    final PaginatedCharacters paginatedCharacters =
-        PaginatedCharacters.builder()
-            .characters(Instancio.ofList(Character.class).size(1).create())
-            .totalCount(1)
-            .hasNext(false)
-            .hasPrevious(false)
+
+    final Character lukeSkywalker =
+        Instancio.of(Character.class).set(field(Character::getName), "Luke Skywalker").create();
+
+    final PaginatedCharacters expected =
+        PaginatedCharacters.builder().characters(List.of(lukeSkywalker)).totalCount(1).hasNext(false).hasPrevious(false)
             .build();
 
-    when(this.characterSearchService.searchCharacters(
-            searchTerm.trim(), page, sortBy, sortDirection))
-        .thenReturn(paginatedCharacters);
+    when(this.characterSearchService.searchCharacters(searchTerm.trim(), page, sortBy, sortDirection)).thenReturn(
+        expected);
 
     // When
-    final PaginatedCharacters result =
+    final PaginatedCharacters actual =
         this.searchCharactersUseCaseImpl.searchCharacters(searchTerm, page, sortBy, sortDirection);
 
     // Then
-    assertNotNull(result);
-    assertEquals(paginatedCharacters.getCharacters().size(), result.getCharacters().size());
-    assertEquals(paginatedCharacters.getTotalCount(), result.getTotalCount());
-    assertEquals(paginatedCharacters.isHasNext(), result.isHasNext());
-    assertEquals(paginatedCharacters.isHasPrevious(), result.isHasPrevious());
-    assertEquals(
-        paginatedCharacters.getCharacters().get(0).getName(),
-        result.getCharacters().get(0).getName());
+    assertThat(actual).isNotNull().usingRecursiveComparison().isEqualTo(expected);
 
-    verify(this.characterSearchService, times(1))
-        .searchCharacters(searchTerm.trim(), page, sortBy, sortDirection);
+    verify(this.characterSearchService).searchCharacters(searchTerm.trim(), page, sortBy, sortDirection);
     verifyNoMoreInteractions(this.characterSearchService);
   }
 }

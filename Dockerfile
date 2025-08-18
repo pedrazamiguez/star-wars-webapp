@@ -17,7 +17,7 @@ RUN keytool -importcert \
 
 # Copy application code and build it
 COPY . .
-RUN ./gradlew bootJar --no-daemon
+RUN ./gradlew :star-wars-webapp-boot:bootJar --no-daemon
 
 # Final image
 FROM eclipse-temurin:21-jre-alpine
@@ -29,7 +29,7 @@ WORKDIR /app
 COPY --from=builder "$JAVA_HOME/lib/security/cacerts" "$JAVA_HOME/lib/security/cacerts"
 
 # Copy the built JAR
-COPY --from=builder /app/build/libs/*.jar app.jar
+COPY --from=builder /app/star-wars-webapp-boot/build/libs/star-wars-webapp-boot-*.jar /app.jar
 
 # Expose application port
 EXPOSE 6969
