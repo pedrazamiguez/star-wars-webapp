@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("it")
-class CharacterClientServiceIT {
+class CharacterClientServiceTest {
 
   @Autowired
   private CharacterClientServiceImpl characterClientServiceImpl;
@@ -57,9 +57,7 @@ class CharacterClientServiceIT {
 
     // Then
     assertThat(characters).isNotEmpty()
-        .allSatisfy(character -> {
-          assertThat(character).hasFieldOrProperty("characterId");
-        })
+        .allSatisfy(character -> assertThat(character).hasFieldOrProperty("characterId"))
         .hasSize(82);
   }
 
