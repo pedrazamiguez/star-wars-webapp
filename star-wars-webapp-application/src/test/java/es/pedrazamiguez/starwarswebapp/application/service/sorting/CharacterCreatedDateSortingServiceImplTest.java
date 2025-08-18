@@ -24,30 +24,10 @@ class CharacterCreatedDateSortingServiceImplTest {
     // Given
     final String sortDirection = "asc";
     final Character ch1 = Instancio.of(Character.class)
-        .set(field(Character::getCreated), LocalDateTime.of(2025, 8, 18, 10, 0))
+        .set(field(Character::getCreated), LocalDateTime.now())
         .create();
     final Character ch2 = Instancio.of(Character.class)
-        .set(field(Character::getCreated), LocalDateTime.of(2023, 8, 18, 11, 0))
-        .create();
-
-    // When
-    final Comparator<Character> comparator = this.characterCreatedDateSortingServiceImpl.getComparator(sortDirection);
-    final int result = comparator.compare(ch1, ch2);
-
-    // Then
-    assertThat(comparator).isNotNull();
-    assertThat(result).isPositive();
-  }
-
-  @Test
-  void givenCharacters_whenGetComparatorDesc_thenReturnComparator() {
-    // Given
-    final String sortDirection = "desc";
-    final Character ch1 = Instancio.of(Character.class)
-        .set(field(Character::getCreated), LocalDateTime.of(2025, 8, 18, 10, 0))
-        .create();
-    final Character ch2 = Instancio.of(Character.class)
-        .set(field(Character::getCreated), LocalDateTime.of(2023, 8, 18, 11, 0))
+        .set(field(Character::getCreated), LocalDateTime.now().plusHours(1))
         .create();
 
     // When
@@ -57,6 +37,28 @@ class CharacterCreatedDateSortingServiceImplTest {
     // Then
     assertThat(comparator).isNotNull();
     assertThat(result).isNegative();
+    assertThat(ch1.getCreated()).isBefore(ch2.getCreated());
+  }
+
+  @Test
+  void givenCharacters_whenGetComparatorDesc_thenReturnComparator() {
+    // Given
+    final String sortDirection = "desc";
+    final Character ch1 = Instancio.of(Character.class)
+        .set(field(Character::getCreated), LocalDateTime.now())
+        .create();
+    final Character ch2 = Instancio.of(Character.class)
+        .set(field(Character::getCreated), LocalDateTime.now().plusHours(1))
+        .create();
+
+    // When
+    final Comparator<Character> comparator = this.characterCreatedDateSortingServiceImpl.getComparator(sortDirection);
+    final int result = comparator.compare(ch1, ch2);
+
+    // Then
+    assertThat(comparator).isNotNull();
+    assertThat(result).isPositive();
+    assertThat(ch1.getCreated()).isBefore(ch2.getCreated());
   }
 
   @Test
