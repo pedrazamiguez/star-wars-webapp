@@ -30,8 +30,9 @@ cd star-wars-webapp
 
 Make sure you have Java 21 installed.
 
-> Important: Before continuing, you may need to import the certificate for the API URL into your JDK's `cacerts` file.
-> See the section below for instructions.
+> **Important**: Before continuing, you may need to import the certificate for the API URL into your JDK's `cacerts`
+> file.
+> See the section at the end for instructions.
 
 Issue the following command:
 
@@ -51,7 +52,7 @@ Optionally, you can generate a JAR file to run the application:
 Then run the JAR file:
 
 ```bash
-java -jar star-wars-webapp-boot/build/libs/star-wars-webapp-0.0.1-SNAPSHOT.jar
+java -jar star-wars-webapp-boot/build/libs/star-wars-webapp-boot-0.0.1-SNAPSHOT.jar
 ```
 
 ### Running the application as a Docker container
@@ -76,17 +77,21 @@ The application will be accessible at [http://localhost:6969](http://localhost:6
 
 The application provides the following features:
 
-- **Landing page**: A simple landing page with a welcome message and top navigation to the main features of the application.
+- **Landing page**: A simple landing page with a welcome message and top navigation to the main features of the
+  application.
 
 ![Landing page screenshot](assets/images/welcome_page.png)
 
-- **List characters**: Displays a paginated list of characters from the Star Wars universe. You can search for characters
-  by name and navigate through pages.
+- **List characters**: Displays a paginated list of characters from the Star Wars universe. You can search for
+  characters
+  by name and navigate through pages. Also, sorting by name or created date in both ascending and descending order is
+  supported.
 
 ![Characters list screenshot](assets/images/list_characters.png)
 
 - **List starships**: Displays a paginated list of starships from the Star Wars universe. You can search for starships
-  by name and navigate through pages.
+  by name and navigate through pages. Also, sorting by name or created date in both ascending and descending order is
+  supported.
 
 ![Starships list screenshot](assets/images/list_starships.png)
 
@@ -125,7 +130,7 @@ and starships endpoints at the minute.
 
 The API is publicly available and can be accessed at [https://swapi.dev/](https://swapi.dev/).
 
-> Note:
+> **Note**:
 >
 > The first recommended API to use for this project was the [SWAPI - CO](https://swapi.co/), but it seems to have
 > changed domain.
@@ -141,13 +146,14 @@ Since the API is limited in terms of sorting and pagination, the application fet
 starships on startup and caches them using Caffeine, improving significantly the performance of the application. In the
 event of failure to fetch the data, the application will still work and try again on the first request to the API.
 
-If this behavior is not desired, you can disable it by changing the following setting to `false` in the `application.yml` file:
+If this behavior is not desired, you can disable it by changing the following setting to `false` in the
+`application.yml` file:
 
 ```yaml
 swapi:
   base-url: https://swapi.dev/api
   default-page-size: 10
-  load-data-on-startup: false      // <-- Change this to false to disable loading data on startup
+  load-data-on-startup: false      # <-- Change this to false in order to disable loading data on startup
 ```
 
 ## Importing the certificate for the API URL into your JDK
