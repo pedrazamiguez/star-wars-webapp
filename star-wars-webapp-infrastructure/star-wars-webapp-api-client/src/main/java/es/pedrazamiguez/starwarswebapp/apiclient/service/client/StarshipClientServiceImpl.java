@@ -79,7 +79,7 @@ public class StarshipClientServiceImpl implements StarshipClientService {
     }
   }
 
-  private Page<Starship> getPaginatedStarships(final int page) {
+  Page<Starship> getPaginatedStarships(final int page) {
     log.info("Fetching starships on page {}", page);
     try {
       final String endpointUrl = String.format("/starships?page=%d", page);

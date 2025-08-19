@@ -78,7 +78,7 @@ public class CharacterClientServiceImpl implements CharacterClientService {
     }
   }
 
-  private Page<Character> getPaginatedCharacters(final int page) {
+  Page<Character> getPaginatedCharacters(final int page) {
     log.info("Fetching characters on page {}", page);
     try {
       final String endpointUrl = String.format("/people?page=%d", page);
