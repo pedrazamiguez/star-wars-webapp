@@ -1,16 +1,14 @@
 package es.pedrazamiguez.starwarswebapp.application.service.search;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
-import es.pedrazamiguez.starwarswebapp.domain.service.search.StarshipSearchService;
+import es.pedrazamiguez.starwarswebapp.domain.service.search.SearchService;
 import es.pedrazamiguez.starwarswebapp.domain.service.sorting.StarshipSortingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -19,61 +17,45 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class StarshipSearchServiceImpl implements StarshipSearchService {
-
-  private final int pageSize;
+public class StarshipSearchServiceImpl extends AbstractSearchService<Starship> implements SearchService<Starship> {
 
   private final StarshipClientService starshipClientService;
 
   private final Map<String, StarshipSortingService> starshipSortingServices;
 
-  public StarshipSearchServiceImpl(@Value("${swapi.default-page-size}") final int defaultPageSize,
+  public StarshipSearchServiceImpl(@Value("${swapi.default-page-size}") final int pageSize,
                                    final StarshipClientService starshipClientService,
                                    final List<StarshipSortingService> starshipSortingServices) {
+    super(pageSize);
 
-    this.pageSize = defaultPageSize;
     this.starshipClientService = starshipClientService;
     this.starshipSortingServices = starshipSortingServices.stream()
         .collect(Collectors.toMap(StarshipSortingService::getSortBy, Function.identity()));
   }
 
   @Override
-  public Page<Starship> searchStarships(final String searchTerm, final int page, final String sortBy,
-                                        final String sortDirection) {
+  protected List<Starship> fetchAllItems() {
+    return this.starshipClientService.fetchAllStarships();
+  }
 
-    log.debug("Searching starships for term '{}' on page {}, sortBy: {}, sortDirection: {}", searchTerm, page, sortBy,
-        sortDirection);
+  @Override
+  protected boolean qualifiesForSearch(final Starship item, final String searchTerm) {
+    return item.getName()
+        .toLowerCase()
+        .contains(searchTerm) || item.getModel()
+        .toLowerCase()
+        .contains(searchTerm);
+  }
 
-    final List<Starship> starships = this.starshipClientService.fetchAllStarships();
-    final List<Starship> filteredStarships = starships.stream()
-        .filter(starship -> searchTerm.isEmpty() || starship.getName()
-            .toLowerCase()
-            .contains(searchTerm.toLowerCase()))
-        .collect(Collectors.toList());
-
+  @Override
+  protected Comparator<Starship> getComparator(final String sortBy, final String sortDirection) {
     final StarshipSortingService starshipSortingService = this.starshipSortingServices.get(sortBy);
 
     if (!ObjectUtils.isEmpty(starshipSortingService)) {
-
-      final Comparator<Starship> starshipComparator = starshipSortingService.getComparator(sortDirection);
-
-      filteredStarships.sort(starshipComparator);
+      return starshipSortingService.getComparator(sortDirection);
     }
 
-    final int from = (page - 1) * this.pageSize;
-    final int to = Math.min(from + this.pageSize, filteredStarships.size());
-
-    final List<Starship> pageSlice =
-        (from < filteredStarships.size()) ? filteredStarships.subList(from, to) : Collections.emptyList();
-
-    final boolean hasNext = to < filteredStarships.size();
-    final boolean hasPrevious = page > 1;
-
-    return Page.<Starship>builder()
-        .items(pageSlice)
-        .totalCount(filteredStarships.size())
-        .hasNext(hasNext)
-        .hasPrevious(hasPrevious)
-        .build();
+    return Comparator.comparing(Starship::getStarshipId);
   }
+
 }
