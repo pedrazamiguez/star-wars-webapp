@@ -1,29 +1,18 @@
 package es.pedrazamiguez.starwarswebapp.application.service.sorting;
 
+import es.pedrazamiguez.starwarswebapp.application.service.sorting.type.AbstractLocalDateTimeSortingService;
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import es.pedrazamiguez.starwarswebapp.domain.service.sorting.CharacterSortingService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.time.LocalDateTime;
+import java.util.function.Function;
 
-@Slf4j
 @Service
-public class CharacterCreatedDateSortingServiceImpl implements CharacterSortingService {
+public class CharacterCreatedDateSortingServiceImpl extends AbstractLocalDateTimeSortingService<Character> {
 
   @Override
-  public Comparator<Character> getComparator(final String sortDirection) {
-    log.debug("Sorting characters by {} in {} order", this.getSortBy(), sortDirection);
-
-    Comparator<Character> comparator =
-        Comparator.comparing(
-            Character::getCreated, Comparator.nullsLast(Comparator.naturalOrder()));
-
-    if ("desc".equalsIgnoreCase(sortDirection)) {
-      comparator = comparator.reversed();
-    }
-
-    return comparator;
+  protected Function<Character, LocalDateTime> getSortFunction() {
+    return Character::getCreated;
   }
 
   @Override

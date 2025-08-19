@@ -90,8 +90,8 @@ The application provides the following features:
 ![Characters list screenshot](assets/images/list_characters.png)
 
 - **List starships**: Displays a paginated list of starships from the Star Wars universe. You can search for starships
-  by name and navigate through pages. Also, sorting by name or created date in both ascending and descending order is
-  supported.
+  by name or model and navigate through pages. Also, sorting by name or created date in both ascending and descending
+  order is supported.
 
 ![Starships list screenshot](assets/images/list_starships.png)
 
@@ -118,7 +118,7 @@ This is a multi-module Gradle project which follows a hexagonal architecture app
 - **star-wars-webapp-infrastructure**: Adapters for external systems. It's actually a parent module that includes the
   following submodules:
 
-    - **star-wars-webapp-infrastructure-swapi**: Implementation of the SWAPI client.
+    - **star-wars-webapp-api-client**: Implementation of the SWAPI client.
 
 - **star-wars-webapp-presentation**: Contains the web layer, including controllers and Thymeleaf templates.
 

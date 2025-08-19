@@ -2,9 +2,7 @@ package es.pedrazamiguez.starwarswebapp.application.service.search;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
-import es.pedrazamiguez.starwarswebapp.domain.service.search.SearchService;
-import es.pedrazamiguez.starwarswebapp.domain.service.sorting.StarshipSortingService;
-import lombok.extern.slf4j.Slf4j;
+import es.pedrazamiguez.starwarswebapp.domain.service.sorting.SortingService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -15,22 +13,21 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
-public class StarshipSearchServiceImpl extends AbstractSearchService<Starship> implements SearchService<Starship> {
+public class StarshipSearchServiceImpl extends AbstractSearchService<Starship> {
 
   private final StarshipClientService starshipClientService;
 
-  private final Map<String, StarshipSortingService> starshipSortingServices;
+  private final Map<String, SortingService<Starship>> starshipSortingServices;
 
   public StarshipSearchServiceImpl(@Value("${swapi.default-page-size}") final int pageSize,
                                    final StarshipClientService starshipClientService,
-                                   final List<StarshipSortingService> starshipSortingServices) {
+                                   final List<SortingService<Starship>> starshipSortingServices) {
     super(pageSize);
 
     this.starshipClientService = starshipClientService;
     this.starshipSortingServices = starshipSortingServices.stream()
-        .collect(Collectors.toMap(StarshipSortingService::getSortBy, Function.identity()));
+        .collect(Collectors.toMap(SortingService<Starship>::getSortBy, Function.identity()));
   }
 
   @Override
@@ -49,7 +46,7 @@ public class StarshipSearchServiceImpl extends AbstractSearchService<Starship> i
 
   @Override
   protected Comparator<Starship> getComparator(final String sortBy, final String sortDirection) {
-    final StarshipSortingService starshipSortingService = this.starshipSortingServices.get(sortBy);
+    final SortingService<Starship> starshipSortingService = this.starshipSortingServices.get(sortBy);
 
     if (!ObjectUtils.isEmpty(starshipSortingService)) {
       return starshipSortingService.getComparator(sortDirection);
