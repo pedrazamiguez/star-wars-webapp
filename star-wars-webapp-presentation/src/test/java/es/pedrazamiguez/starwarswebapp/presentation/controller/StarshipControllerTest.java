@@ -5,6 +5,7 @@ import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchStarshipsUseCase;
 import es.pedrazamiguez.starwarswebapp.presentation.mapper.StarshipViewModelMapper;
 import es.pedrazamiguez.starwarswebapp.presentation.view.StarshipViewModel;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,7 +53,7 @@ class StarshipControllerTest extends AbstractControllerTest {
     final String sortDirection = "asc";
 
     final Page<Starship> paginatedStarships = Page.<Starship>builder()
-        .items(Collections.singletonList(new Starship()))
+        .items(Collections.singletonList(Instancio.create(Starship.class)))
         .totalCount(1)
         .hasNext(false)
         .hasPrevious(false)

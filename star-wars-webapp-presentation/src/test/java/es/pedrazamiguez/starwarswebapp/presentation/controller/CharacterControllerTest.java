@@ -5,6 +5,7 @@ import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchCharactersUseCase;
 import es.pedrazamiguez.starwarswebapp.presentation.mapper.CharacterViewModelMapper;
 import es.pedrazamiguez.starwarswebapp.presentation.view.CharacterViewModel;
+import org.instancio.Instancio;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,7 +53,7 @@ class CharacterControllerTest extends AbstractControllerTest {
     final String sortDirection = "asc";
 
     final Page<Character> paginatedCharacters = Page.<Character>builder()
-        .items(Collections.singletonList(new Character()))
+        .items(Collections.singletonList(Instancio.create(Character.class)))
         .totalCount(1)
         .hasNext(false)
         .hasPrevious(false)

@@ -22,7 +22,7 @@ class IndexControllerTest extends AbstractControllerTest {
 
   @Test
   void givenIndexRequest_whenHandleLandingPage_thenReturnLandingPage() throws Exception {
-    this.mockMvc.perform(get(""))
+    this.mockMvc.perform(get("/"))
         .andExpect(status().isOk())
         .andExpect(view().name("index"));
   }
