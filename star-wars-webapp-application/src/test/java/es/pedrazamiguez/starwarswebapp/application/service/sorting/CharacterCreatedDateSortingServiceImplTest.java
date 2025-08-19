@@ -27,7 +27,8 @@ class CharacterCreatedDateSortingServiceImplTest {
         .set(field(Character::getCreated), LocalDateTime.now())
         .create();
     final Character ch2 = Instancio.of(Character.class)
-        .set(field(Character::getCreated), LocalDateTime.now().plusHours(1))
+        .set(field(Character::getCreated), LocalDateTime.now()
+            .plusHours(1))
         .create();
 
     // When
@@ -48,7 +49,8 @@ class CharacterCreatedDateSortingServiceImplTest {
         .set(field(Character::getCreated), LocalDateTime.now())
         .create();
     final Character ch2 = Instancio.of(Character.class)
-        .set(field(Character::getCreated), LocalDateTime.now().plusHours(1))
+        .set(field(Character::getCreated), LocalDateTime.now()
+            .plusHours(1))
         .create();
 
     // When

@@ -2,9 +2,7 @@ package es.pedrazamiguez.starwarswebapp.application.service.search;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.CharacterClientService;
-import es.pedrazamiguez.starwarswebapp.domain.service.search.SearchService;
 import es.pedrazamiguez.starwarswebapp.domain.service.sorting.SortingService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -15,9 +13,8 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
-public class CharacterSearchServiceImpl extends AbstractSearchService<Character> implements SearchService<Character> {
+public class CharacterSearchServiceImpl extends AbstractSearchService<Character> {
 
   private final CharacterClientService characterClientService;
 
