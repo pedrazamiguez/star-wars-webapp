@@ -2,7 +2,7 @@ package es.pedrazamiguez.starwarswebapp.apiclient.mapper;
 
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.StarshipsResponseDto;
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,
-    imports = {LocalDateTime.class, DateTimeFormatter.class})
+    imports = {Page.class, LocalDateTime.class, DateTimeFormatter.class})
 public interface StarshipDtoMapper {
 
   String STARSHIP_ID_REGEX = ".*starships/(\\d+)/?.*";
@@ -40,6 +40,6 @@ public interface StarshipDtoMapper {
   @Mapping(
       target = "hasPrevious",
       expression = "java( null != starshipsResponseDto.getPrevious() )")
-  @Mapping(target = "starships", source = "results")
-  PaginatedStarships toPaginatedStarships(StarshipsResponseDto starshipsResponseDto);
+  @Mapping(target = "items", source = "results")
+  Page<Starship> toPaginatedStarships(StarshipsResponseDto starshipsResponseDto);
 }

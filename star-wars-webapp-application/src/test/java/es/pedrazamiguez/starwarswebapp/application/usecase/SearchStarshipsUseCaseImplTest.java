@@ -1,8 +1,8 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
-import es.pedrazamiguez.starwarswebapp.domain.service.search.StarshipSearchService;
+import es.pedrazamiguez.starwarswebapp.domain.service.search.SearchService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +26,7 @@ class SearchStarshipsUseCaseImplTest {
   private SearchStarshipsUseCaseImpl searchStarshipsUseCaseImpl;
 
   @Mock
-  private StarshipSearchService starshipSearchService;
+  private SearchService<Starship> starshipSearchService;
 
   @Test
   void givenSearchParameters_whenSearchStarships_thenReturnPaginatedStarships() {
@@ -40,18 +40,17 @@ class SearchStarshipsUseCaseImplTest {
         .set(field(Starship::getName), "H-type Nubian yacht")
         .create();
 
-    final PaginatedStarships expected = PaginatedStarships.builder()
-        .starships(List.of(nubianYacht))
+    final Page<Starship> expected = Page.<Starship>builder()
+        .items(List.of(nubianYacht))
         .totalCount(1)
         .hasNext(false)
         .hasPrevious(false)
         .build();
 
-    when(this.starshipSearchService.searchStarships(searchTerm.trim(), page, sortBy, sortDirection)).thenReturn(
-        expected);
+    when(this.starshipSearchService.search(searchTerm.trim(), page, sortBy, sortDirection)).thenReturn(expected);
 
     // When
-    final PaginatedStarships actual =
+    final Page<Starship> actual =
         this.searchStarshipsUseCaseImpl.searchStarships(searchTerm, page, sortBy, sortDirection);
 
     // Then
@@ -59,7 +58,7 @@ class SearchStarshipsUseCaseImplTest {
         .usingRecursiveComparison()
         .isEqualTo(expected);
 
-    verify(this.starshipSearchService).searchStarships(searchTerm.trim(), page, sortBy, sortDirection);
+    verify(this.starshipSearchService).search(searchTerm.trim(), page, sortBy, sortDirection);
     verifyNoMoreInteractions(this.starshipSearchService);
   }
 

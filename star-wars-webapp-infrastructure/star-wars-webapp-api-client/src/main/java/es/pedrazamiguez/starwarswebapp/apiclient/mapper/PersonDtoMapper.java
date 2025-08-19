@@ -3,7 +3,7 @@ package es.pedrazamiguez.starwarswebapp.apiclient.mapper;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.PeopleResponseDto;
 import es.pedrazamiguez.starwarswebapp.apiclient.dto.PersonDto;
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 @Mapper(
     componentModel = MappingConstants.ComponentModel.SPRING,
-    imports = {LocalDateTime.class, DateTimeFormatter.class})
+    imports = {Page.class, LocalDateTime.class, DateTimeFormatter.class})
 public interface PersonDtoMapper {
 
   String PEOPLE_ID_REGEX = ".*people/(\\d+)/?.*";
@@ -36,6 +36,6 @@ public interface PersonDtoMapper {
   @Mapping(target = "totalCount", source = "count")
   @Mapping(target = "hasNext", expression = "java( null != peopleResponseDto.getNext() )")
   @Mapping(target = "hasPrevious", expression = "java( null != peopleResponseDto.getPrevious() )")
-  @Mapping(target = "characters", source = "results")
-  PaginatedCharacters toPaginatedCharacters(PeopleResponseDto peopleResponseDto);
+  @Mapping(target = "items", source = "results")
+  Page<Character> toPaginatedCharacters(PeopleResponseDto peopleResponseDto);
 }

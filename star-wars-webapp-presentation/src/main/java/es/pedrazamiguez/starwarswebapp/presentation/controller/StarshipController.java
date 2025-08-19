@@ -1,6 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.presentation.controller;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
+import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchStarshipsUseCase;
 import es.pedrazamiguez.starwarswebapp.presentation.mapper.StarshipViewModelMapper;
 import es.pedrazamiguez.starwarswebapp.presentation.view.StarshipViewModel;
@@ -25,19 +26,18 @@ public class StarshipController {
   private final StarshipViewModelMapper starshipViewModelMapper;
 
   @GetMapping
-  public String searchStarships(
-      @RequestParam(value = "query", required = false, defaultValue = "") final String query,
-      @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
-      @RequestParam(value = "sortBy", required = false, defaultValue = "") final String sortBy,
-      @RequestParam(value = "sortDirection", required = false, defaultValue = "") final String sortDirection,
-      final Model model) {
+  public String searchStarships(@RequestParam(value = "query", required = false, defaultValue = "") final String query,
+                                @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
+                                @RequestParam(value = "sortBy", required = false, defaultValue = "")
+                                final String sortBy,
+                                @RequestParam(value = "sortDirection", required = false, defaultValue = "")
+                                final String sortDirection, final Model model) {
 
-    final PaginatedStarships paginatedStarships =
+    final Page<Starship> paginatedStarships =
         this.searchStarshipsUseCase.searchStarships(query, page, sortBy, sortDirection);
 
     final StarshipViewModel starshipViewModel =
-        this.starshipViewModelMapper.toViewModel(
-            paginatedStarships, query, page, sortBy, sortDirection);
+        this.starshipViewModelMapper.toViewModel(paginatedStarships, query, page, sortBy, sortDirection);
 
     model.addAttribute(ATTRIBUTE_VIEW_MODEL, starshipViewModel);
 

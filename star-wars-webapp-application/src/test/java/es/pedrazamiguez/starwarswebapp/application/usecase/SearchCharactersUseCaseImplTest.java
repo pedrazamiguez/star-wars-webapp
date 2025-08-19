@@ -1,8 +1,8 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
-import es.pedrazamiguez.starwarswebapp.domain.service.search.CharacterSearchService;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
+import es.pedrazamiguez.starwarswebapp.domain.service.search.SearchService;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +25,7 @@ class SearchCharactersUseCaseImplTest {
   private SearchCharactersUseCaseImpl searchCharactersUseCaseImpl;
 
   @Mock
-  private CharacterSearchService characterSearchService;
+  private SearchService<Character> characterSearchService;
 
   @Test
   void givenSearchParameters_whenSearchCharacters_thenReturnPaginatedCharacters() {
@@ -39,18 +39,17 @@ class SearchCharactersUseCaseImplTest {
         .set(field(Character::getName), "Luke Skywalker")
         .create();
 
-    final PaginatedCharacters expected = PaginatedCharacters.builder()
-        .characters(List.of(lukeSkywalker))
+    final Page<Character> expected = Page.<Character>builder()
+        .items(List.of(lukeSkywalker))
         .totalCount(1)
         .hasNext(false)
         .hasPrevious(false)
         .build();
 
-    when(this.characterSearchService.searchCharacters(searchTerm.trim(), page, sortBy, sortDirection)).thenReturn(
-        expected);
+    when(this.characterSearchService.search(searchTerm.trim(), page, sortBy, sortDirection)).thenReturn(expected);
 
     // When
-    final PaginatedCharacters actual =
+    final Page<Character> actual =
         this.searchCharactersUseCaseImpl.searchCharacters(searchTerm, page, sortBy, sortDirection);
 
     // Then
@@ -58,7 +57,7 @@ class SearchCharactersUseCaseImplTest {
         .usingRecursiveComparison()
         .isEqualTo(expected);
 
-    verify(this.characterSearchService).searchCharacters(searchTerm.trim(), page, sortBy, sortDirection);
+    verify(this.characterSearchService).search(searchTerm.trim(), page, sortBy, sortDirection);
     verifyNoMoreInteractions(this.characterSearchService);
   }
 }
