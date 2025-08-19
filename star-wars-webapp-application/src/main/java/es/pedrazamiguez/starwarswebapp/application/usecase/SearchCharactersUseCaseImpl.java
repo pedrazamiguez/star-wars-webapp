@@ -1,6 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
+import es.pedrazamiguez.starwarswebapp.domain.model.Character;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.service.search.CharacterSearchService;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchCharactersUseCase;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class SearchCharactersUseCaseImpl implements SearchCharactersUseCase {
   private final CharacterSearchService characterSearchService;
 
   @Override
-  public PaginatedCharacters searchCharacters(
+  public Page<Character> searchCharacters(
       final String searchTerm, final int page, final String sortBy, final String sortDirection) {
 
     log.info("Searching characters for term '{}' on page {}", searchTerm, page);

@@ -1,6 +1,6 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.search.StarshipSearchService;
 import org.instancio.Instancio;
@@ -40,8 +40,8 @@ class SearchStarshipsUseCaseImplTest {
         .set(field(Starship::getName), "H-type Nubian yacht")
         .create();
 
-    final PaginatedStarships expected = PaginatedStarships.builder()
-        .starships(List.of(nubianYacht))
+    final Page<Starship> expected = Page.<Starship>builder()
+        .items(List.of(nubianYacht))
         .totalCount(1)
         .hasNext(false)
         .hasPrevious(false)
@@ -51,7 +51,7 @@ class SearchStarshipsUseCaseImplTest {
         expected);
 
     // When
-    final PaginatedStarships actual =
+    final Page<Starship> actual =
         this.searchStarshipsUseCaseImpl.searchStarships(searchTerm, page, sortBy, sortDirection);
 
     // Then

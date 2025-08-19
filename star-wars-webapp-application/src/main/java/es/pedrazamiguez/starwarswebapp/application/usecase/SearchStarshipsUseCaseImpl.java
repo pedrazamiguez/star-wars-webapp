@@ -1,6 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.application.usecase;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
+import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.search.StarshipSearchService;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchStarshipsUseCase;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class SearchStarshipsUseCaseImpl implements SearchStarshipsUseCase {
   private final StarshipSearchService starshipSearchService;
 
   @Override
-  public PaginatedStarships searchStarships(
+  public Page<Starship> searchStarships(
       final String searchTerm, final int page, final String sortBy, final String sortDirection) {
 
     log.info("Searching starships for term '{}' on page {}", searchTerm, page);

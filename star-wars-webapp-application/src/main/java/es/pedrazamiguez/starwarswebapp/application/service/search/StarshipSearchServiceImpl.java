@@ -1,6 +1,6 @@
 package es.pedrazamiguez.starwarswebapp.application.service.search;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 import es.pedrazamiguez.starwarswebapp.domain.service.client.StarshipClientService;
 import es.pedrazamiguez.starwarswebapp.domain.service.search.StarshipSearchService;
@@ -27,46 +27,35 @@ public class StarshipSearchServiceImpl implements StarshipSearchService {
 
   private final Map<String, StarshipSortingService> starshipSortingServices;
 
-  public StarshipSearchServiceImpl(
-      @Value("${swapi.default-page-size}") final int defaultPageSize,
-      final StarshipClientService starshipClientService,
-      final List<StarshipSortingService> starshipSortingServices) {
+  public StarshipSearchServiceImpl(@Value("${swapi.default-page-size}") final int defaultPageSize,
+                                   final StarshipClientService starshipClientService,
+                                   final List<StarshipSortingService> starshipSortingServices) {
 
     this.pageSize = defaultPageSize;
     this.starshipClientService = starshipClientService;
-    this.starshipSortingServices =
-        starshipSortingServices.stream()
-            .collect(Collectors.toMap(StarshipSortingService::getSortBy, Function.identity()));
+    this.starshipSortingServices = starshipSortingServices.stream()
+        .collect(Collectors.toMap(StarshipSortingService::getSortBy, Function.identity()));
   }
 
   @Override
-  public PaginatedStarships searchStarships(
-      final String searchTerm, final int page, final String sortBy, final String sortDirection) {
+  public Page<Starship> searchStarships(final String searchTerm, final int page, final String sortBy,
+                                        final String sortDirection) {
 
-    log.debug(
-        "Searching starships for term '{}' on page {}, sortBy: {}, sortDirection: {}",
-        searchTerm,
-        page,
-        sortBy,
+    log.debug("Searching starships for term '{}' on page {}, sortBy: {}, sortDirection: {}", searchTerm, page, sortBy,
         sortDirection);
 
     final List<Starship> starships = this.starshipClientService.fetchAllStarships();
-    final List<Starship> filteredStarships =
-        starships.stream()
-            .filter(
-                starship ->
-                    searchTerm.isEmpty()
-                        || starship.getName()
-                        .toLowerCase()
-                        .contains(searchTerm.toLowerCase()))
-            .collect(Collectors.toList());
+    final List<Starship> filteredStarships = starships.stream()
+        .filter(starship -> searchTerm.isEmpty() || starship.getName()
+            .toLowerCase()
+            .contains(searchTerm.toLowerCase()))
+        .collect(Collectors.toList());
 
     final StarshipSortingService starshipSortingService = this.starshipSortingServices.get(sortBy);
 
     if (!ObjectUtils.isEmpty(starshipSortingService)) {
 
-      final Comparator<Starship> starshipComparator =
-          starshipSortingService.getComparator(sortDirection);
+      final Comparator<Starship> starshipComparator = starshipSortingService.getComparator(sortDirection);
 
       filteredStarships.sort(starshipComparator);
     }
@@ -75,15 +64,13 @@ public class StarshipSearchServiceImpl implements StarshipSearchService {
     final int to = Math.min(from + this.pageSize, filteredStarships.size());
 
     final List<Starship> pageSlice =
-        (from < filteredStarships.size())
-            ? filteredStarships.subList(from, to)
-            : Collections.emptyList();
+        (from < filteredStarships.size()) ? filteredStarships.subList(from, to) : Collections.emptyList();
 
     final boolean hasNext = to < filteredStarships.size();
     final boolean hasPrevious = page > 1;
 
-    return PaginatedStarships.builder()
-        .starships(pageSlice)
+    return Page.<Starship>builder()
+        .items(pageSlice)
         .totalCount(filteredStarships.size())
         .hasNext(hasNext)
         .hasPrevious(hasPrevious)

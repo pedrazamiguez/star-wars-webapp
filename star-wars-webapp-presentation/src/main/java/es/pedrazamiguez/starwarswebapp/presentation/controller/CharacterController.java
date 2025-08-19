@@ -1,6 +1,7 @@
 package es.pedrazamiguez.starwarswebapp.presentation.controller;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedCharacters;
+import es.pedrazamiguez.starwarswebapp.domain.model.Character;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
 import es.pedrazamiguez.starwarswebapp.domain.usecase.SearchCharactersUseCase;
 import es.pedrazamiguez.starwarswebapp.presentation.mapper.CharacterViewModelMapper;
 import es.pedrazamiguez.starwarswebapp.presentation.view.CharacterViewModel;
@@ -25,19 +26,18 @@ public class CharacterController {
   private final CharacterViewModelMapper characterViewModelMapper;
 
   @GetMapping
-  public String searchCharacters(
-      @RequestParam(value = "query", required = false, defaultValue = "") final String query,
-      @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
-      @RequestParam(value = "sortBy", required = false, defaultValue = "") final String sortBy,
-      @RequestParam(value = "sortDirection", required = false, defaultValue = "") final String sortDirection,
-      final Model model) {
+  public String searchCharacters(@RequestParam(value = "query", required = false, defaultValue = "") final String query,
+                                 @RequestParam(value = "page", required = false, defaultValue = "1") final int page,
+                                 @RequestParam(value = "sortBy", required = false, defaultValue = "")
+                                 final String sortBy,
+                                 @RequestParam(value = "sortDirection", required = false, defaultValue = "")
+                                 final String sortDirection, final Model model) {
 
-    final PaginatedCharacters paginatedCharacters =
+    final Page<Character> paginatedCharacters =
         this.searchCharactersUseCase.searchCharacters(query, page, sortBy, sortDirection);
 
     final CharacterViewModel characterViewModel =
-        this.characterViewModelMapper.toViewModel(
-            paginatedCharacters, query, page, sortBy, sortDirection);
+        this.characterViewModelMapper.toViewModel(paginatedCharacters, query, page, sortBy, sortDirection);
 
     model.addAttribute(ATTRIBUTE_VIEW_MODEL, characterViewModel);
 

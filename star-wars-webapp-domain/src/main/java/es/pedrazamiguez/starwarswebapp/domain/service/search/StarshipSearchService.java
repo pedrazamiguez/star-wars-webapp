@@ -1,9 +1,9 @@
 package es.pedrazamiguez.starwarswebapp.domain.service.search;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
+import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 
 public interface StarshipSearchService {
 
-  PaginatedStarships searchStarships(
-      String searchTerm, int page, String sortBy, String sortDirection);
+  Page<Starship> searchStarships(String searchTerm, int page, String sortBy, String sortDirection);
 }

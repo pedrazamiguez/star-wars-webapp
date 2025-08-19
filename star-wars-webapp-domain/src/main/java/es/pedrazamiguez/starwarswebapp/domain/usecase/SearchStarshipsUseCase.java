@@ -1,10 +1,10 @@
 package es.pedrazamiguez.starwarswebapp.domain.usecase;
 
-import es.pedrazamiguez.starwarswebapp.domain.model.PaginatedStarships;
+import es.pedrazamiguez.starwarswebapp.domain.model.Page;
+import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
 
 @FunctionalInterface
 public interface SearchStarshipsUseCase {
 
-  PaginatedStarships searchStarships(
-      String searchTerm, int page, String sortBy, String sortDirection);
+  Page<Starship> searchStarships(String searchTerm, int page, String sortBy, String sortDirection);
 }
