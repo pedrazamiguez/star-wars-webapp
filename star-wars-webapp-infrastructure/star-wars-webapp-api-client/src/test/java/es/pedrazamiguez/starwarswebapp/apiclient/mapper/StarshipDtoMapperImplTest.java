@@ -21,7 +21,7 @@ class StarshipDtoMapperImplTest {
   private StarshipDtoMapperImpl starshipDtoMapperImpl;
 
   @Test
-  void givenStarshipDto_whenMapToStarship_thenReturnStarshipWithId() {
+  void givenStarshipDto_whenMapToStarship_thenReturnStarshipWithParsedId() {
     // Given
     final StarshipDto starshipDto = Instancio.of(StarshipDto.class)
         .set(field(StarshipDto::getUrl), "https://swapi.dev/api/starships/2/")
