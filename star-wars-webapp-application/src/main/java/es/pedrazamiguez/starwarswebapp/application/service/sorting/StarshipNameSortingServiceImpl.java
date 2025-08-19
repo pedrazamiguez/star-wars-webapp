@@ -1,28 +1,19 @@
 package es.pedrazamiguez.starwarswebapp.application.service.sorting;
 
+import es.pedrazamiguez.starwarswebapp.application.service.sorting.type.AbstractStringSortingService;
 import es.pedrazamiguez.starwarswebapp.domain.model.Starship;
-import es.pedrazamiguez.starwarswebapp.domain.service.sorting.StarshipSortingService;
-import lombok.extern.slf4j.Slf4j;
+import es.pedrazamiguez.starwarswebapp.domain.service.sorting.SortingService;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.function.Function;
 
-@Slf4j
 @Service
-public class StarshipNameSortingServiceImpl implements StarshipSortingService {
+public class StarshipNameSortingServiceImpl extends AbstractStringSortingService<Starship>
+    implements SortingService<Starship> {
 
   @Override
-  public Comparator<Starship> getComparator(final String sortDirection) {
-    log.debug("Sorting starships by {} in {} order", this.getSortBy(), sortDirection);
-
-    Comparator<Starship> comparator =
-        Comparator.comparing(Starship::getName, String.CASE_INSENSITIVE_ORDER);
-
-    if ("desc".equalsIgnoreCase(sortDirection)) {
-      comparator = comparator.reversed();
-    }
-
-    return comparator;
+  protected Function<Starship, String> getSortFunction() {
+    return Starship::getName;
   }
 
   @Override

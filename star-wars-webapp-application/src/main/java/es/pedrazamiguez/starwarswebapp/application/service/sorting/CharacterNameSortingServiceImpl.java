@@ -1,28 +1,19 @@
 package es.pedrazamiguez.starwarswebapp.application.service.sorting;
 
+import es.pedrazamiguez.starwarswebapp.application.service.sorting.type.AbstractStringSortingService;
 import es.pedrazamiguez.starwarswebapp.domain.model.Character;
-import es.pedrazamiguez.starwarswebapp.domain.service.sorting.CharacterSortingService;
-import lombok.extern.slf4j.Slf4j;
+import es.pedrazamiguez.starwarswebapp.domain.service.sorting.SortingService;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
+import java.util.function.Function;
 
-@Slf4j
 @Service
-public class CharacterNameSortingServiceImpl implements CharacterSortingService {
+public class CharacterNameSortingServiceImpl extends AbstractStringSortingService<Character>
+    implements SortingService<Character> {
 
   @Override
-  public Comparator<Character> getComparator(final String sortDirection) {
-    log.debug("Sorting characters by {} in {} order", this.getSortBy(), sortDirection);
-
-    Comparator<Character> comparator =
-        Comparator.comparing(Character::getName, String.CASE_INSENSITIVE_ORDER);
-
-    if ("desc".equalsIgnoreCase(sortDirection)) {
-      comparator = comparator.reversed();
-    }
-
-    return comparator;
+  protected Function<Character, String> getSortFunction() {
+    return Character::getName;
   }
 
   @Override
