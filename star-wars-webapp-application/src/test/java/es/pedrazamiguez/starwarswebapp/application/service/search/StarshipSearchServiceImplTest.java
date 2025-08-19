@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,6 +58,39 @@ class StarshipSearchServiceImplTest {
     assertThat(result).isNotNull();
     assertThat(result.getItems()).hasSize(starships.size());
     assertThat(result.getTotalCount()).isEqualTo(starships.size());
+    assertThat(result.isHasNext()).isFalse();
+    assertThat(result.isHasPrevious()).isFalse();
+  }
+
+  @Test
+  void givenValidQueryAndSortParameters_whenSearchStarships_thenReturnMixedPaginatedResults() {
+    // Given
+    final String query = "fighter";
+    final int page = 1;
+    final String sortBy = "name";
+    final String sortDirection = "asc";
+    final List<Starship> starships = Arrays.asList(
+        Instancio.of(Starship.class)
+            .set(field(Starship::getName), "X-Wing")
+            .set(field(Starship::getModel), "Starfighter")
+            .create(),
+        Instancio.of(Starship.class)
+            .set(field(Starship::getName), "TIE Fighter")
+            .set(field(Starship::getModel), "Starfighter")
+            .create(),
+        Instancio.create(Starship.class),
+        Instancio.create(Starship.class)
+    );
+
+    when(this.starshipClientService.fetchAllStarships()).thenReturn(starships);
+
+    // When
+    final Page<Starship> result = this.starshipSearchServiceImpl.search(query, page, sortBy, sortDirection);
+
+    // Then
+    assertThat(result).isNotNull();
+    assertThat(result.getItems()).hasSize(2);
+    assertThat(result.getTotalCount()).isEqualTo(2);
     assertThat(result.isHasNext()).isFalse();
     assertThat(result.isHasPrevious()).isFalse();
   }
