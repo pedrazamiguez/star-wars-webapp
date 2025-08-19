@@ -23,10 +23,10 @@ class CharacterNameSortingServiceImplTest {
     // Given
     final String sortDirection = "asc";
     final Character ch1 = Instancio.of(Character.class)
-        .set(field(Character::getName), "A" + Instancio.create(String.class))
+        .set(field(Character::getName), "Ackbar")
         .create();
     final Character ch2 = Instancio.of(Character.class)
-        .set(field(Character::getName), "Z" + Instancio.create(String.class))
+        .set(field(Character::getName), "Yoda")
         .create();
 
     // When
@@ -44,10 +44,10 @@ class CharacterNameSortingServiceImplTest {
     // Given
     final String sortDirection = "desc";
     final Character ch1 = Instancio.of(Character.class)
-        .set(field(Character::getName), "A" + Instancio.create(String.class))
+        .set(field(Character::getName), "Ackbar")
         .create();
     final Character ch2 = Instancio.of(Character.class)
-        .set(field(Character::getName), "Z" + Instancio.create(String.class))
+        .set(field(Character::getName), "Yoda")
         .create();
 
     // When
