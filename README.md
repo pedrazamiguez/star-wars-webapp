@@ -179,3 +179,18 @@ openssl s_client -connect swapi.dev:443 -servername swapi.dev < /dev/null | open
 ```
 sudo keytool -importcert -file swapi.pem -alias swapi -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
 ```
+
+## SonarQube metrics
+
+[![Coverage](https://cantalobos.mooo.com/api/project_badges/measure?project=Star-Wars-WebApp&metric=coverage&token=sqb_4599abf8984445d1d05ce29b7568676aa0f691f3)](https://cantalobos.mooo.com/dashboard?id=Star-Wars-WebApp)
+
+[![Lines of Code](https://cantalobos.mooo.com/api/project_badges/measure?project=Star-Wars-WebApp&metric=ncloc&token=sqb_4599abf8984445d1d05ce29b7568676aa0f691f3)](https://cantalobos.mooo.com/dashboard?id=Star-Wars-WebApp)
+
+[![Duplicated Lines (%)](https://cantalobos.mooo.com/api/project_badges/measure?project=Star-Wars-WebApp&metric=duplicated_lines_density&token=sqb_4599abf8984445d1d05ce29b7568676aa0f691f3)](https://cantalobos.mooo.com/dashboard?id=Star-Wars-WebApp)
+
+[![Quality Gate Status](https://cantalobos.mooo.com/api/project_badges/measure?project=Star-Wars-WebApp&metric=alert_status&token=sqb_4599abf8984445d1d05ce29b7568676aa0f691f3)](https://cantalobos.mooo.com/dashboard?id=Star-Wars-WebApp)
+
+[![Reliability Rating](https://cantalobos.mooo.com/api/project_badges/measure?project=Star-Wars-WebApp&metric=reliability_rating&token=sqb_4599abf8984445d1d05ce29b7568676aa0f691f3)](https://cantalobos.mooo.com/dashboard?id=Star-Wars-WebApp)
+
+[![Security Rating](https://cantalobos.mooo.com/api/project_badges/measure?project=Star-Wars-WebApp&metric=security_rating&token=sqb_4599abf8984445d1d05ce29b7568676aa0f691f3)](https://cantalobos.mooo.com/dashboard?id=Star-Wars-WebApp)
+
