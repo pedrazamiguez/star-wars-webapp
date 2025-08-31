@@ -156,6 +156,19 @@ swapi:
   load-data-on-startup: false      # <-- Change this to false in order to disable loading data on startup
 ```
 
+### Scalability considerations
+
+For this assessment, loading all data in memory made the application very responsive and simple to implement.
+However, in a **real-world production environment with much larger datasets**, this approach would not be suitable.
+Some alternatives that could be applied are:
+
+- Persisting the external API data in a **local database** (e.g. PostgreSQL, MySQL, MongoDB) and leveraging indexes for efficient sorting, searching, and pagination.
+- Using a **search engine** like Elasticsearch or OpenSearch if advanced filtering and full-text search were required.
+- Caching **only recent or frequently accessed pages** in memory instead of the whole dataset.
+- Scheduling **periodic synchronizations** with the external API instead of loading everything on startup.
+
+This way, the system remains scalable while still providing responsive queries to users.
+
 ## Importing the certificate for the API URL into your JDK
 
 At the time of developing, I was getting the following error when trying to access the API URL:
